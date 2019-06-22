@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<meta name="author" content="Maria Maggio, MA1 D6">
+	<title>MA Circuit Breaker Calculation for Greater Than 1 Acre</title>
+
+<style type="text/css">
+	html { background-color: #cccccc; }
+	body {
+		background-color: #cccccc;
+		font-family: sans-serif;
+		font-size: 0.9em;
+		padding: 0 2.5% 0 2.5%;
+	}
+
+	button { cursor: pointer; background-color: lightgreen; }
+	table { background-color: #eeeeee; border-collapse:collapse; width:100%}
+	div { background-color: #eeeeee; padding: 5px; border:1px solid black; }
+	h1 { text-align: left; font-size: 110%; text-decoration: underline}
+	tr { vertical-align: top; }
+	input { text-align: right; box-shadow: none;}
+	input,
+	select {
+		background-color: white;
+		box-shadow: none;
+	}
+	input:disabled,
+	select:disabled {
+		background-color: lightgrey;
+		font-weight: bold;
+		box-shadow: none;
+	}
+
+  input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+	 input[type="number"] {
+		 appearance: textfield;
+	}
+	.center { text-align: center; }
+	.tblHeader { font-size:110%; font-weight:bold; text-decoration:underline; }
+	.title { font-size:125%; font-weight:bold; }
+	.instruction { background-color:lightgreen; text-decoration:underline; }
+	.comment { font-style:italic; }
+	.stopflag { background-color:red; color:yellow; }
+	.continueflag { background-color:lightgreen; }
+	.noteflag { background-color:yellow; }
+	.link { text-decoration:underline; color:purple; cursor:pointer; }
+	.aff_td { text-align:center; }
+	.aff_exm { width: 6em; text-align:left; }
+  #TPName { width:20em; text-align:left; }
+	#Name {text-align:left; }
+	#APW { display: none; background-color: white; }
+	#Instructions { width: 16em;
+		text-align:center;
+		border:0;
+	       	background-color:transparent;
+		z-index:2;
+		position:absolute; top:0.0em; left:0em; }
+	#Instructions button { margin-top: 3px; }
+	#ClearAndPrint { width: 16em;
+		text-align:center;
+		border:0;
+	       	background-color:transparent;
+		z-index:2;
+		position:absolute; top:0em; right:2em; }
+	#ClearAndPrint button { margin: 2px; }
+
+	#AcreTbl tr td:nth-child(1) { width:50%; }
+	#AcreTbl tr td:nth-child(2) { width:50%; }
+	#CBTbl tr td:nth-child(1) { width:50%; }
+	#CBTbl tr td:nth-child(2) { width:50%; }
+
+	#FPL8962 { font-weight: bold; }
+	#TaxYear { width: 6em; }
+	#IncomeTbl tr:first-child,
+	#IncomeTbl tr:nth-child(12) {
+		text-decoration: underline;
+	}
+	#IncomeTbl tr td input { width:6em; }
+	#IncomeTbl tr td:nth-child(1) { width:20%; }
+	#IncomeTbl tr td:nth-child(2) { width:20%; }
+	#HHDependent { border: 1px solid black; text-align:center; }
+	#GrossInputMessage { display: block; float: left; padding-left: 1em; }
+  #FPL150Message { display: block; float: left; padding-left: 1em; }
+	#TwoFamilyQuestions { display: none}
+	#AffordTbl1 tr td:nth-child(1) { width:35%; }
+	#AffordTbl1 tr td:nth-child(2) { width:10%; }
+	#AffordTbl1 tr td:nth-child(3) { width:40%; text-align:right; }
+	#AffordTbl1 tr td:nth-child(4) { width:15%; text-align:left; }
+	#AffordTbl2 tr td { width:10%; }
+	#AffordTbl2 tr td:first-child { width:30%; }
+	#MCATbl tr td:nth-child(1) { width:35%; }
+	#MCATbl tr td:nth-child(2) { width:5%; }
+	#MCATbl tr td:nth-child(3) { min-width:2em; }
+	#MCATbl tr td:nth-child(4) { width:58%; font-style: italic; }
+	#BronzeList, #SilverList { font-weight: bold; }
+	#BronzeList2, #SilverList2 { font-weight: bold; }
+	//#SOTbl { width: 100%; }
+	#SOTbl tr td:nth-child(1) { width: 1em; }
+	#SOTbl tr td:nth-child(2) { width: 25em; font-style: italic; }
+	#MCA02, #MCA03, #MCA04, #MCA05, #MCA06,
+	#MCA07, #MCA08, #MCA09, #MCA11, #MCA12 {
+		text-align: right;
+	}
+	#coststatenew {
+		display: none;
+		width: 25em;
+		text-align: left;
+	}
+	#coststateok { display: none; }
+	@media print {
+		.doPrint { display:inline; }
+		.noPrint { display:none; }
+		html { background-color: white; font-size: 0.8em; }
+		body { font-size: 0.8em; background-color: white; padding:0; margin:0; }
+		input, select, option { font-size: 0.8em; }
+		table { width: 100%; background-color: white; }
+		#AffordTable { page-break-before: always}
+	}
+</style>
+
+<script type="text/javascript">
+// --------------------------------------------------------------------------------
+// CHANGE HISTORY:
+var VERSION = "(Version 1.0, 6/21/2019)";
+//First production version
+//var VERSION = "(Version 0.5, 6/20/2019)";
+//Initial version for testing
+//var VERSION = "(Version 0.1, 6/19/2019)";
+Land.value = 0;
+Building.value = 0;
+TotAssess.value = 0;
+RETaxes.value = 0;
+Acreage.value = 1;
+CBAssess.value = 0;
+CBRETaxes.value = 0;
+var Acres = 0;
+
+function Initialize() {
+
+//Land.value = 0;
+//Building.value = 0;
+//TotAssess.value = 0;
+//RETaxes.value = 0;
+//Acreage.value = 1;
+//CBAssess.value = 0;
+//CBRETaxes.value = 0;
+//alert("in initialize");
+
+}
+
+function UpdateVal() {
+
+//	alert("in updateval");
+
+	TotAssess.value = +Land.value + +Building.value;
+	UpdateCB();
+}
+
+function UpdateCB() {
+
+//alert("in updatecb");
+   if (SqFtButton.checked) {
+		 Acres = Acreage.value / 43560;
+	 }
+	 else {
+	  Acres = Acreage.value;
+	 }
+   if(Acreage.value < 1) {
+      Acres = 1;
+    }
+		if(Acreage.value) {
+			CBAssess.value = Math.round((Land.value / Acres)) + +Building.value;
+		}
+		else {
+			CBAssess.value = "";
+		}
+    if(TotAssess.value > 0 && RETaxes.value) {
+      CBRETaxes.value = Math.round((CBAssess.value / TotAssess.value) * RETaxes.value);
+    }
+    else {
+      CBRETaxes.value = RETaxes.value;
+    }
+
+}
+</script>
+</head>
+<!-- ******************************************************************************************************** -->
+<!-- **************************************** START OF HTML ************************************************* -->
+<!-- ******************************************************************************************************** -->
+
+<body onload="Initialize()">
+
+<center>
+	<span class="title">MA CB Greater Than 1 Acre Calculator</span>
+	<br><span id="Version"></span><script>Version.innerHTML = VERSION;</script>
+	<br>&nbsp;
+</center>
+
+<div id="Instructions" class="noPrint">
+	<a href="./MA-CB.pdf" target="_blank"><button>Instructions</button></a>
+</div>
+
+<div id="ClearAndPrint" class="noPrint">
+	<button onclick="window.open(window.location, &#39;_self&#39;)">Clear and reset calculator</button>
+	<br><button onclick="window.print()">Print a taxpayer copy</button>
+</div>
+
+<!-- ****************************************** Tax TABLE ****************************************** -->
+<div id="AcreInfo">
+	<h1>CB Inputs</h1>
+	<table id="AcreTbl">
+		<tbody><tr>
+				<td>Taxpayer's Name:</td>
+				<td><input id="Name" size="20" title="Enter the taxpayer&#39;s name."></td>
+			</tr>
+			<tr>
+			<td>Total Assessed Land Value:</td>
+			<td><input id="Land" title="Enter the Land Value." type = "number" size="8"  onchange="UpdateVal()"></td>
+		</tr>
+		<tr>
+    <td>Total Assessed Building Value:</td>
+    <td><input id="Building" title="Enter the Building Value." size="8"  type = "number" onchange="UpdateVal()"></td>
+  </tr>
+  <tr>
+  <td>Total Acreage:
+		<input id=AcreButton type="radio" name="acre_or_sqft" value="Acre"checked onclick="UpdateCB()">     Acres
+		<input id=SqFtButton type="radio" name="acre_or_sqft" value="SqFt" onclick="UpdateCB()">Square Feet</td>
+  <td><input id="Acreage" title="Enter the acreage/square footage."  size="8" type = "number" onchange="UpdateCB()">
+	</td>
+  </tr>
+	<tr>
+  <td>Total Assessed Value:</td>
+  <td><input id="TotAssess" disabled size="8"  type = "number" title="Total Assessed Value"></td>
+  </tr>
+	<tr>
+  <td>Real Estate Taxes Paid:</td>
+  <td><input id="RETaxes" size="8"  title="Real Estate Taxes Paid" type = "number" onchange="UpdateCB()"></td>
+  </tr>
+ </tbody></table>
+</div> <!-- AcreInfo -->
+	<div id="CBInfo">
+		<h1>CB Entries for TaxSlayer</h1>
+		<table id="CBTbl">
+			<tbody><tr>
+				<td>CB Assessed Value:</td>
+				<td><input id="CBAssess" disabled size="8"  type = "number" title="CB Assessed Value"></td>
+			</tr>
+			<tr>
+	    <td>CB Real Estate Taxes:</td>
+	    <td><input id="CBRETaxes" disabled size="8"  type = "number" title="CB Real Estate Taxes"></td>
+	  </tr>
+
+
+		</tbody></table>
+	</div> <!-- CBInfo-->
+	<div class="noPrint">
+		  Please send corrections and suggestions to <a href="mailto:mdmaggio7@gmail.com">mdmaggio7@gmail.com</a><br>
+		  <span id="printbutton2" style="float: right;"><button onclick="window.print()">Print a taxpayer copy</button></span>
+	</div>
+
+
+</body>
+</html>

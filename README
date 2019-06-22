@@ -1,0 +1,9 @@
+These are tools for doing MA tax returns with TaxSlayer.
+MAHC.html
+
+ToDo List:
+Check for affordability for employer offer
+Check for affordability for private insurance
+Error checking
+Remove up/down arrows on input boxes for numbers
+Add warning to CB calculator if CB assessed is > max

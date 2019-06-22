@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)http://cotaxaide.org/tools/ACA%20Affordability%20Calculator.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<meta name="author" content="Maria Maggio, MA1 D6">
+	<title>MA Health Care Affordability Calculator</title>
+
+<style type="text/css">
+	html { background-color: #cccccc; }
+	body {
+		background-color: #cccccc;
+		font-family: sans-serif;
+		font-size: 0.9em;
+		padding: 0 2.5% 0 2.5%;
+	}
+	button { cursor: pointer; background-color: lightgreen; }
+	table { background-color: #eeeeee; border-collapse:collapse; width:100%}
+	div { background-color: #eeeeee; padding: 5px; border:1px solid black; }
+	h1 { text-align: left; font-size: 110%; text-decoration: underline}
+	tr { vertical-align: top; }
+	input { text-align: right; }
+	input,
+	select {
+		background-color: white;
+	}
+	input:disabled,
+	select:disabled {
+		background-color: lightgrey;
+		font-weight: bold;
+	}
+	.center { text-align: center; }
+	.tblHeader { font-size:110%; font-weight:bold; text-decoration:underline; }
+	.title { font-size:125%; font-weight:bold; }
+	.instruction { background-color:lightgreen; text-decoration:underline; }
+	.comment { font-style:italic; }
+	.stopflag { background-color:red; color:yellow; }
+	.continueflag { background-color:lightgreen; }
+	.noteflag { background-color:yellow; }
+	.link { text-decoration:underline; color:purple; cursor:pointer; }
+	.aff_td { text-align:center; }
+	.aff_exm { width: 6em; text-align:left; }
+	#TPName { width:20em; text-align:left; }
+	#APW { display: none; background-color: white; }
+	#Instructions { width: 16em;
+		text-align:center;
+		border:0;
+	       	background-color:transparent;
+		z-index:2;
+		position:absolute; top:0.0em; left:0em; }
+	#Instructions button { margin-top: 3px; }
+	#ClearAndPrint { width: 16em;
+		text-align:center;
+		border:0;
+	       	background-color:transparent;
+		z-index:2;
+		position:absolute; top:0em; right:2em; }
+	#ClearAndPrint button { margin: 2px; }
+	#FilingInfoTbl tr td:nth-child(1) { width:50%; }
+	#FilingInfoTbl tr td:nth-child(2) { width:50%; }
+	#AGIInfoTbl tr td:nth-child(1) { width:50%; }
+	#AGIInfoTbl tr td:nth-child(2) { width:50%; }
+	#FPL150Tbl tr td:nth-child(1) { width:50%; }
+	#FPL150Tbl tr td:nth-child(2) { width:50%; }
+	#FPL300Tbl tr td:nth-child(1) { width:50%; }
+	#FPL300Tbl tr td:nth-child(2) { width:50%; }
+	#EmployerTbl tr td:nth-child(1) { width:50%; }
+	#EmployerTbl tr td:nth-child(2) { width:50%; }
+	#PrivateTbl tr td:nth-child(1) { width:50%; }
+	#PrivateTbl tr td:nth-child(2) { width:50%; }
+
+
+	#FPL8962 { font-weight: bold; }
+	#TaxYear { width: 6em; }
+	#IncomeTbl tr:first-child,
+	#IncomeTbl tr:nth-child(12) {
+		text-decoration: underline;
+	}
+	#IncomeTbl tr td input { width:6em; }
+	#IncomeTbl tr td:nth-child(1) { width:20%; }
+	#IncomeTbl tr td:nth-child(2) { width:20%; }
+	#HHDependent { border: 1px solid black; text-align:center; }
+	#GrossInputMessage { display: block; float: left; padding-left: 1em; }
+  #FPL150Message { display: block; float: left; padding-left: 1em; color:red;}
+	#FPL300Message { display: block; float: left; padding-left: 1em; color:red ;}
+	#TwoFamilyQuestions { display: none}
+	#AffordTbl1 tr td:nth-child(1) { width:35%; }
+	#AffordTbl1 tr td:nth-child(2) { width:10%; }
+	#AffordTbl1 tr td:nth-child(3) { width:40%; text-align:right; }
+	#AffordTbl1 tr td:nth-child(4) { width:15%; text-align:left; }
+	#AffordTbl2 tr td { width:10%; }
+	#AffordTbl2 tr td:first-child { width:30%; }
+	#MCATbl tr td:nth-child(1) { width:35%; }
+	#MCATbl tr td:nth-child(2) { width:5%; }
+	#MCATbl tr td:nth-child(3) { min-width:2em; }
+	#MCATbl tr td:nth-child(4) { width:58%; font-style: italic; }
+	#BronzeList, #SilverList { font-weight: bold; }
+	#BronzeList2, #SilverList2 { font-weight: bold; }
+	//#SOTbl { width: 100%; }
+	#SOTbl tr td:nth-child(1) { width: 1em; }
+	#SOTbl tr td:nth-child(2) { width: 25em; font-style: italic; }
+	#MCA02, #MCA03, #MCA04, #MCA05, #MCA06,
+	#MCA07, #MCA08, #MCA09, #MCA11, #MCA12 {
+		text-align: right;
+	}
+	#coststatenew {
+		display: none;
+		width: 25em;
+		text-align: left;
+	}
+	#coststateok { display: none; }
+	@media print {
+		.doPrint { display:inline; }
+		.noPrint { display:none; }
+		html { background-color: white; font-size: 0.8em; }
+		body { font-size: 0.8em; background-color: white; padding:0; margin:0; }
+		input, select, option { font-size: 0.8em; }
+		table { width: 100%; background-color: white; }
+		#AffordTable { page-break-before: always}
+	}
+</style>
+
+
+<script src="./MA_2018.js"></script>
+<script type="text/javascript">
+
+
+	var VERSION;
+	// --------------------------------------------------------------------------------
+	// CHANGE HISTORY:
+	var VERSION = "(Version 0.1, 6/19/2019)";
+	// Initial version from Jeff Bogart's ACA calculator with permission and thanks
+
+	var vFPL138 = 0;
+	var vFPL249 = 0;
+	var PersonList = ["TP","SP","D1","D2","D3","D4","D5"];
+	var FamilyPlan = false;
+	var FedPovLine = 0;
+	var FPL = 7880;
+	var FPLAddr = 4180;
+	var Penalty = "false";
+	var StateURL = "";
+	var NoSilver = false;
+	var QualForPTC = true;
+	var HIA = 0;
+	var HIV = 0;
+	var MCACalc = false;
+	var QualForACode = [false,false,false,false,false,false,false,];
+	var QualForCodeA = [false,false,false,false,false,false,false,];
+	var Unqualified = [];
+	var HIAffordRatePerMo = 0;
+	var MoYr = 1; // defaults to display results in monthly rates
+	var APW_Visible = false;
+	var QualForCodeG = false;
+	var TwoFamilyPlans = false;
+	var MECChangeFlag = false;
+	var CGline = 13;
+	var ADJline = 36;
+
+	// Regions
+	// var Region = [];
+
+	_Region["Berkshire"] = "1";
+	_Region["Franklin"] = "1";
+	_Region["Hampshire"] = "1";
+	_Region["Bristol"] = "2";
+	_Region["Barnstable"] = "2";
+	_Region["Hampden"] = "2";
+	_Region["Middlesex"] = "2";
+	_Region["Norfolk"] = "2";
+	_Region["Plymouth"] = "2";
+	_Region["Suffolk"] = "2";
+	_Region["Worcester"] = "2";
+	_Region["Essex"] = "2";
+	_Region["Dukes"] = "3";
+	_Region["Nantucket"] = "3";
+
+	//----------------------------------------------------------------------------------------
+	// This function adds tax year options to the Filing Information section
+	function Initialize() {
+	//----------------------------------------------------------------------------------------
+		// Add tax year options
+//		TaxYear.length = 0;
+		var tyOptIndex = 0;
+//		_StartYear = Math.max(2014,_StartYear); // ACA N/A prior to 2014
+//		for (var ty = _StartYear; ty <= _StopYear; ty++) {
+//			var tyopti = document.createElement("option");
+//			tyopti.text = tyopti.value = ty;
+//			TaxYear.add(tyopti,tyOptIndex++);
+//		}
+
+
+		TaxYear.value = "2018";
+		// Initialize filing status to single, Age 18, no dependents
+		TPAGE.value = "18";
+		SPAGE.value = "18";
+
+		FPL = _FPL[TaxYear];
+		FPLAddr = _FPLAddr[TaxYear];
+		FPL = 7880;
+		FPLAddr = 4180;
+		FamilySize.value = 1;
+		TPAGI.value = SPAGI.value = 0;
+		SPAGI.disabled = "true";
+		Penalty = "false";
+		FileChange();
+	}
+
+		//----------------------------------------------------------------------------------------
+		// This function readjusts settings when filing status information is changed
+		function FileChange() {
+		//----------------------------------------------------------------------------------------
+
+
+		PY1.innerHTML = PY2.innerHTML = (+TaxYear.value - 1)
+		CGlineno.innerHTML = CGline = _LineNo[TaxYear.value + ":CapGains"];
+		ADJLineno.innerHTML = ADJline = _LineNo[TaxYear.value + ":Adjustments"];
+		switch (FilingStatus.value) {
+			case "MFS":
+				SPAGI.disabled = "false";
+				break;
+			case "MFJ":
+			case "SNG":
+			case "HOH":
+				SPAGI.disabled = "true";
+				SPAGI.innerHTML = "";
+				SPAGI.value = "";
+				break;
+			}
+
+		FileCalc();
+		ShadeDepList(false);
+		HouseChange();
+	}
+
+	//----------------------------------------------------------------------------------------
+	// This function clears and disables inactive fields in the Affordability table
+	function ShadeDepList(
+		clear_results	// true/false, clear the results line as well if true
+		) {
+	//----------------------------------------------------------------------------------------
+
+		if (clear_results) {
+			Bronze.value = Silver.value = "";
+			EmployerOption(true);
+		}
+
+		// Taxpayer
+		var marketCoverageCost = +(MCA12.innerHTML);
+		if (MCACalc) TPMarket.value = marketCoverageCost;
+
+		// Spouse
+		var eList = document.getElementsByClassName("SP");
+		for (var eA = 1; eA < eList.length; eA++) {
+			if (FilingStatus.value != "MFJ") { // no spouse
+				eList[eA].disabled = true;
+				eList[eA].innerHTML = "";
+				eList[eA].style.backgroundColor = "";
+				eList[eA].value = "";
+				SPExm.disabled = true;
+				SPExm.value = "";
+				SPFamilySal.disabled = true;
+				SPFamilySal.checked = false;
+			}
+			else { // MFJ
+				eList[eA].disabled = false;
+				SPMarket.disabled = SPCost.disabled = SPPcnt.disabled = true;
+				SPExm.disabled = false;
+				if (SPExm.value == "") SPExm.value = "NO";
+				if (! TPFamilySal.checked) SPFamilySal.disabled = false;
+			}
+		}
+		if (! SPSelf.disabled) {
+			if (MCACalc) SPMarket.value = marketCoverageCost;
+		}
+
+		// Dependents
+		var deps = Dependents.value;
+		for (var depNo = 1; depNo < 6; depNo++) {
+			eList = document.getElementsByClassName("D" + depNo);
+			var eListLength = eList.length;
+			exmv = document.getElementById("D" + depNo + "Exm");
+
+			for (var eA = 0; eA < eListLength; eA++) {
+				if (depNo > deps) {
+					eList[eA].disabled = true;
+					if (eList[eA] != exmv) {
+						eList[eA].innerHTML = "";
+					}
+					eList[eA].value = "";
+					eList[eA].style.backgroundColor = "";
+					exmv.disabled = true;
+				}
+				else {
+					eList[eA].disabled = false;
+					if (exmv.value == "") exmv.value = "NO";
+					eList[eListLength-16].disabled = true;	// Market value
+					eList[eListLength-2].disabled = true; // Equivalent annual cost
+					eList[eListLength-1].disabled = true; // Percent of income
+				}
+
+			}
+		}
+
+	}
+
+
+
+	//----------------------------------------------------------------------------------------
+	// Calculates the values for filing threshold and poverty levels
+	function FileCalc() {
+	//----------------------------------------------------------------------------------------
+
+		// Find filing threshold
+		taxdata = _Standard[TaxYear.value].split(",");
+		var threshval = ((FilingStatus.value == "MFJ" ) ? 2:1) * +taxdata[_Standard["Exemption"]];
+		if (FilingStatus.value != "MFS") {
+			threshval += +taxdata[_Standard[FilingStatus.value]];
+			var threshinc = +taxdata[_Standard[FilingStatus.value]+1];
+			if (TP65.checked) threshval += threshinc;
+			if (SP65.checked) threshval += threshinc;
+		}
+		GThresh.innerHTML = HHThresh.innerHTML = Thresh.innerHTML = threshval;
+
+
+		// Federal Poverty Lines - Use previous year's FPL tables for ACA affordability
+		iFPLIndex = (TaxYear.value - 1) + ":" + ThisRegion;
+		FedPovLine = +(_FPL[iFPLIndex].split(",")[0]) + (Dependents.value * _FPL[iFPLIndex].split(",")[1]);
+		if (FilingStatus.value == "MFJ") FedPovLine += +_FPL[iFPLIndex].split(",")[1];
+		if (FilingStatus.value == "MFS") { // add a comment to the Marketplace worksheet
+			MFSStop.innerHTML = "<span class='noteflag'>NOTE!</span> If filing MFS, the TP does not qualify for the PTC and would pay the full cost of the Bronze plan<br /><b>BUT</b> check here <input id='MFSabuse' type='checkbox' onchange='InsureLists();'/> if the abuse/abandonment exception applies and enter the Silver plan cost."; // 4.35
+			if (Silver.disabled) {
+				Silver.value = 0;
+				NoSilver = true;
+			}
+			else NoSilver = false;
+		}
+		else {
+			MFSStop.innerHTML = "";
+		}
+		FPL100.innerHTML = FedPovLine;
+		FPL138.innerHTML = Math.round( ((ACABHPY.checked) ? 2.00 : 1.38) * FedPovLine);
+		SOAmount.innerHTML = Math.round(FPL138.innerHTML / 12);
+		FPL400.innerHTML = 4 * +FedPovLine;
+		MCA05.innerHTML = FedPovLine;
+		FPL8962.innerHTML = "";
+
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Clears calculations that follow that depend on household income levels
+	function HouseChange() {
+	//----------------------------------------------------------------------------------------
+
+		// Clear and reset variables
+		AffordButton.style.visibility = "hidden";
+		SalaryChange();
+		HouseholdMore.style.display = "none";
+		HouseholdLess.style.display = "none";
+		Household138.style.display = "none";
+		Household249.style.display = "none";
+		Silver.value = (FilingStatus.value == "MFS") ? "0":"";
+		Silver.disabled = (FilingStatus.value == "MFS");
+		Bronze.value = "";
+		MCACalc = false;
+		TH = +Thresh.innerHTML;
+
+		// calculate the current Household Income value
+		HHIv = HouseTest(true);
+		if (HHIv < TH) {
+			TPCAP.disabled = TPADJ.disabled = TPMHS.disabled = TPSDL.disabled = TPBUS.disabled = true;
+			TPCAP.value = TPADJ.value = TPMHS.value = TPSDL.value = TPBUS.value = "";
+			GrossInputMessage.innerHTML = "<br /><br /><br />Gross income test data not needed.<br />Household Income lower than filing threshold.";
+		}
+		else if (TPAGI.value >= TH) {
+			TPCAP.disabled = TPADJ.disabled = TPMHS.disabled = TPSDL.disabled = TPBUS.disabled = true;
+			TPCAP.value = TPADJ.value = TPMHS.value = TPSDL.value = TPBUS.value = "";
+			GrossInputMessage.innerHTML = "<br /><br /><br />Gross income test data not needed.<br />AGI already exceeds filing threshold.";
+		}
+		else {
+			TPCAP.disabled = TPADJ.disabled = TPMHS.disabled = TPSDL.disabled = TPBUS.disabled = false;
+			GrossInputMessage.innerHTML = "<br /><br />Gross income test needed (TP & SP only).<br />Enter any applicable amounts in these five rows.<br /><button class='noPrint' onclick='ShowGrossInfo()'>Click for more information</button>";
+		}
+	}
+
+	//----------------------------------------------
+	// This function tests for 150% of FedPovLine
+	//
+	function CheckFPL150() {
+		TotAGI.value = +TPAGI.value + +SPAGI.value;
+		FPL150 = (FPL + (FamilySize.value * FPLAddr)) * 1.5;
+		if (TotAGI.value <= FPL150) {
+			FPL150Message.innerHTML =  "AGI less than or equal to 150% of FPL - No Penalty Applies.";
+			Penalty = "false";
+		}
+		else {
+			FPL150Message.innerHTML =  "AGI greater than 150% of FPL - Continue to affordability tests.";
+
+		}
+	//	message = "FPL=" + FPL150 + "TotAGI.value=" + TotAGI.value + "In CheckFPL150\n\n"
+	//  alert (message);
+	}
+
+	//----------------------------------------------
+	// This function tests for 300% of FedPovLine and not eligible for subsized/MassHealth
+	//
+	function CheckFPL300() {
+		TotAGI.value = +TPAGI.value + +SPAGI.value;
+		FPL300 = (FPL + (FamilySize.value * FPLAddr)) * 3;
+		if (TotAGI.value <= FPL300 &&  CitizenLegalResident.value == "Yes" && GovInsurance.value == "No") {
+			FPL300Message.innerHTML =  "Eligible for MassHealth/Subsidized Coverage. Penalty Applies.";
+			Penalty = "true";
+		}
+		else {
+			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsized - Continue to next test.";
+		}
+	//	message = "FPL=" + FPL150 + "TotAGI.value=" + TotAGI.value + "In CheckFPL150\n\n"
+	//  alert (message);
+	}
+	function EmployerOffer() {
+
+	}
+	//----------------------------------------------------------------------------------------
+	// This function provides a message explaining how gross income is determined
+	function ShowGrossInfo() {
+	//----------------------------------------------------------------------------------------
+		message = "Addbacks needed to determine Gross Income given the AGI:\n\n";
+		message += "1040 Capital Gain/Loss:\n     Enter the amount from Form 1040 line ";
+		message += CGline + "\n";
+		message += "This removes the effect of any losses, including carryovers, from the AGI so that the";
+		message += " full Schedule D gains can be added back in below.";
+		message += " These two entries result in adding back in the capital gain losses as required.\n\n";
+		message += "Adjustments to income:\n     Enter the amount from Form 1040 line 36.\n\n";
+		message += "Main Home Sale exclusion:\n     Enter the amount excluded.\n\n";
+		message += "Schedule D gains:\n     Add all individual sale transaction gains";
+		message += " and all gains for amounts in Sched D lines 4, 5, 11, 12 and 13.\n\n";
+		message += "Schedule C expenses and losses:\n     Enter the amount on Schedule C line 28.";
+		message += " Also include line 30 if it is in scope for you.";
+		alert (message);
+	}
+
+	//----------------------------------------------------------------------------------------
+	// This function is called when salary deduction or household amounts change
+	function SalaryChange() {
+	//----------------------------------------------------------------------------------------
+		UpdateAffordRate();
+		Bronze.value = Silver.value = "";
+		EmployerOption(true);
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Recognizes changes to the employer-provided health plan choice and optionally clears prior data
+	// Prevents checking both self and family plans
+	// Prevents both TP and SP from checking family plans
+	function EmployerOption(
+		ClearCalc,	// if true, clears all the non-checked month fields when any change occurs
+		ClearDeps	// optional. if true, clears all dependent family plan entries
+		) {
+	//----------------------------------------------------------------------------------------
+
+		var MECChangeFlag = false;
+
+		if (QualForCodeG) ClearMonths(true);
+
+		// Clear the dependents family plan entries
+		if (ClearDeps) {
+			for (var xP = 2; xP < 7; xP++) document.getElementById(PersonList[xP] + "Family").value = "";
+		}
+
+		// Taxpayer Self
+		if (TPSelfSal.checked) {
+			if (TPExm.value != "MEC") MECChangeFlag = true;
+			TPExm.value = "MEC";
+			TPFamilySal.disabled = true;
+		}
+		else {
+			TPFamilySal.disabled = false;
+		}
+
+		// Taxpayer family
+		if (TPFamilySal.checked) {
+			if (TPExm.value != "MEC") MECChangeFlag = true;
+			TPExm.value = "MEC";
+			SPFamilySal.disabled = true;
+			SPFamilySal.checked = false;
+			TPSelfSal.disabled = true;
+		}
+		else {
+			TPSelfSal.disabled = false;
+			SPFamilySal.disabled = false;
+		}
+
+		// Did we change a coverage category?
+		if (MECChangeFlag) {
+			alert("Because the employer plan was taken, the taxpayer has been changed to \"MEC\".");
+			MECChangeFlag = false;
+		}
+
+		// Spouse Self
+		if (SPSelfSal.checked) {
+			if (SPExm.value != "MEC") MECChangeFlag = true;
+			SPExm.value = "MEC";
+			SPFamilySal.disabled = true;
+		}
+		else {
+			SPFamilySal.disabled = false;
+		}
+
+		// Spouse family
+		if (SPFamilySal.checked) {
+			if (SPExm.value != "MEC") MECChangeFlag = true;
+			SPExm.value = "MEC";
+			TPFamilySal.disabled = true;
+			TPFamilySal.checked = false;
+			SPSelfSal.disabled = true;
+		}
+		else {
+			SPSelfSal.disabled = false;
+		}
+
+		// Did we change a coverage category?
+		if (MECChangeFlag) {
+			alert("Because the employer plan was taken, the spouse has been changed to \"MEC\".");
+			MECChangeFlag = false;
+		}
+
+		// Calculate the marketplace cost
+		Silver.disabled = ((FilingStatus.value == "MFS") && (! MFSabuse.checked)) ? true : false;
+		var iFPLPercent = +MCA06.innerHTML * 100;
+		if (((iFPLPercent < 100) && (! SilverOverride.checked)) || (iFPLPercent > 400) || (SilverList.innerHTML == "")) {
+			MCAFactor.innerHTML = "";
+			MCA07.innerHTML = MCA08.innerHTML = MCA09.innerHTML = MCA12.innerHTML = "";
+			Silver.disabled = true;
+			Silver.value = "";
+			var MCA11v = "";
+		}
+		else {
+			MCAFactor.innerHTML = Math.round(iFPLPercent);
+			if ((iFPLPercent > 99) && (iFPLPercent < 401)) {
+				if (iFPLPercent < 133) iFPLPercent = 132;
+				if (iFPLPercent > 300) iFPLPercent = 300;
+
+				var PTCFactor = 0;
+				var PTCRange = 0;
+				var PTCData = [];
+				while ((PTCFactor == 0) && (PTCRange <= 400)){
+					PTCRangeIndex = TaxYear.value + ":" + PTCRange;
+					PTCData = _PTCFactorVal[PTCRangeIndex].split(",");
+					if (PTCData[0] > iFPLPercent) PTCFactor = +PTCData[1];
+					else PTCRange = +PTCData[0];
+				}
+				if (PTCRange >= 400) {
+					PTCFactor = +PTCData[2];
+				}
+				else {
+					PTCFactor = (+PTCData[1] + ((iFPLPercent - PTCRange) *
+						(+PTCData[2] - +PTCData[1]) / (+PTCData[0] - PTCRange)))/100;
+				}
+				MCA07.innerHTML = PTCFactor.toFixed(4);
+			}
+			MCA08.innerHTML = (+MCA07.innerHTML * +MCA04.innerHTML).toFixed(2);
+			MCA09.innerHTML = (+MCA08.innerHTML / 12.0).toFixed(2);
+			var MCA11v = +Silver.value - +MCA09.innerHTML;
+		}
+
+		if (isNaN(MCA11v)) MCA11v = 0;
+		MCA11.innerHTML = Math.max(0,MCA11v).toFixed(2);
+		MCA12.innerHTML = Math.max(0,+Bronze.value - +MCA11.innerHTML).toFixed(2);
+		if (MCA12.innerHTML == "NaN") MCA12.innerHTML = 0;
+
+		if (ClearCalc) ClearMonths(false);
+		InsureLists();
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Adjust the affordability rate fields when HH income or salary reduction occurs
+	function UpdateAffordRate() {
+	//----------------------------------------------------------------------------------------
+		HIA = +HouseIncome8965.value + +SalaryAmount.value;
+		HIAdjusted.innerHTML = HIA.toFixed(2);
+		stopFlagAmount.innerHTML = HIAffordPct.innerHTML = (_AffordRate[TaxYear.value]*100).toFixed(2);
+		HIAffordRate.innerHTML = (HIA * _AffordRate[TaxYear.value]).toFixed(2);
+		HIAffordRatePerMo = +(+HIAffordRate.innerHTML/12).toFixed(2);
+		MoRate.innerHTML = (+HIAffordRate.innerHTML * (MoYr / 12)).toFixed(2);
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Produces a factor table to verify our calculation vs the official one
+	// Click on the period after row 7 in the Market Affordabilty Worksheet to print the table
+	// Not used by the calculator
+	function FactorTest(){
+	//----------------------------------------------------------------------------------------
+
+		var PTCFactor = 0;
+		var PTCRange = 0;
+		var PTCData = [];
+		var WinURL = document.URL;
+		var TestWindow = window.open(WinURL,"Test results");
+		TestWindow.document.writeln("<table><tr><td>FPL%</td><td>Calculated</td></tr>\n");
+		for (iFPLPercent = 132; iFPLPercent <= 300; iFPLPercent++) {
+			PTCFactor = 0;
+			while ((PTCFactor == 0) && (PTCRange <= 400)){
+				PTCRangeIndex = TaxYear.value + ":" + PTCRange;
+				PTCData = _PTCFactorVal[PTCRangeIndex].split(",");
+				if (+PTCData[0] > iFPLPercent) PTCFactor = +PTCData[1];
+				else PTCRange = +PTCData[0];
+			}
+			if (PTCRange >= 400) {
+				PTCFactor = +PTCData[2];
+			}
+			else {
+				PTCFactor = (+PTCData[1] + ((iFPLPercent - PTCRange) *
+					(+PTCData[2] - +PTCData[1]) / (+PTCData[0] - PTCRange)))/100;
+			}
+			PTCCalced = PTCFactor.toFixed(4);
+			PTCResult = "<tr><td>" + iFPLPercent + "</td><td>" + PTCCalced + "</td></tr>\n";
+			TestWindow.document.writeln(PTCResult);
+		}
+		TestWindow.document.writeln("</table>\n");
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Validate characters entered in employer provided plans
+	// Clear unchecked months if anything changes
+	function AffordChange(
+		myid,	// the id of the element that changed
+		change	// optional. True means field changed (versus keyup)
+		) {
+	//----------------------------------------------------------------------------------------
+		if (myid == "TwoFamilyQuestions") { EmployerOption(true, true); return; }
+
+		myptr = document.getElementById(myid);
+		var testVal = myptr.value = myptr.value.trim();
+		switch (myid) {
+			case "TPFamily":
+			case "SPFamily":
+			case "TPSelf":
+			case "SPSelf":
+				if (testVal == "") change = true;
+				// no break
+			case "D1Family":
+			case "D2Family":
+			case "D3Family":
+			case "D4Family":
+			case "D5Family":
+				if (testVal == "x") myptr.value = testVal = "X";
+				if (testVal == "X") {
+					Bronze.value = Silver.value = "";
+					EmployerOption(true);
+					return;
+				}
+				break;
+			case "SPFamilySal":
+			case "TPFamilySal":
+				testVal = 0;
+				break;
+		}
+		if (isNaN(testVal)) {
+			myptr.value = testVal.substring(0,testVal.length-1);
+			return;
+		}
+
+		if (change) {
+			// If there appear to be 2 family plans, show the questions when needed
+			TwoFamilyPlans = ((TPFamily.value != "") && (SPFamily.value != "")
+					&& (TPFamily.value != "X") && (SPFamily.value != "X")
+					&& (+TPFamily.value != +SPFamily.value));
+			ShowTFQ = ((TPSelf.value == "") || (SPSelf.value == ""));
+			if (TwoFamilyPlans && ShowTFQ) {
+				TwoFamilyQuestions.style.display = "table-row";
+			}
+			else {
+				TwoFamilyQuestions.style.display = "none";
+				SPinTPYes.checked = TPinSPYes.checked = true;
+			}
+
+			// Clear the dependents family plan entries
+			for (var xP = 2; xP < 7; xP++) document.getElementById(PersonList[xP] + "Family").value = "";
+		}
+
+		EmployerOption(true, change);
+	}
+	//----------------------------------------------------------------------------------------
+	// Validate character entries to Bronze and Silver amounts
+	function MCAChange(
+		myid	// id of the element that changed
+		) {
+	//----------------------------------------------------------------------------------------
+		if (myid == "Silver" && NoSilver) {
+			Silver.value = 0;
+			return;
+		}
+		myptr = document.getElementById(myid);
+		var testVal = myptr.value;
+		if (isNaN(testVal)) {
+			myptr.value = testVal.substring(0,testVal.length-1);
+			return;
+		}
+		myptr.focus();
+		EmployerOption(false);
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Called when the Household Income "Click to Test" button is clicked
+	function HouseTest(
+		HHOnly	// true/false, if true calculate and return the HouseIncome8965 only
+		) {
+	//----------------------------------------------------------------------------------------
+
+		// Gross income test
+		if ((! HHOnly) && (+TPSDL.value < +TPCAP.value)) {alert("The amount from Form 1040 line " + CGline + " cannot be greater than the Schedule D gains."); return; }
+		var gross_income = +TPAGI.value - +TPCAP.value + +TPADJ.value + +TPMHS.value + +TPSDL.value + +TPBUS.value;
+		GrossIncome8965.value = (+TPAGI.value > +Thresh.innerHTML) ? "N/A":gross_income;
+
+		// Compute and test for invalid household income amounts
+		if (+TPSST.value > +TPSSI.value) { alert("Taxpayer's taxable Social Security income cannot be greater that their total Social Security income."); return; }
+		if (+D1SST.value > +D1SSI.value) { alert("Dependent 1's taxable Social Security income cannot be greater that their total Social Security income."); return; }
+		if (+D2SST.value > +D2SSI.value) { alert("Dependent 2's taxable Social Security income cannot be greater that their total Social Security income."); return; }
+		if (+D3SST.value > +D3SSI.value) { alert("Dependent 3's taxable Social Security income cannot be greater that their total Social Security income."); return; }
+		if (+D4SST.value > +D4SSI.value) { alert("Dependent 4's taxable Social Security income cannot be greater that their total Social Security income."); return; }
+		if (+D5SST.value > +D5SSI.value) { alert("Dependent 5's taxable Social Security income cannot be greater that their total Social Security income."); return; }
+
+		// HH Income for 8965 line 2 (does not include untaxed SS).
+		var dependents8965v =
+			+D1AGI.value + +D2AGI.value + +D3AGI.value + +D4AGI.value + +D5AGI.value +
+			+D1TFI.value + +D2TFI.value + +D3TFI.value + +D4TFI.value + +D5TFI.value +
+			+D1FOR.value + +D2FOR.value + +D3FOR.value + +D4FOR.value + +D5FOR.value;
+		HouseIncome8965.value = +TPAGI.value + +TPTFI.value + +TPFOR.value + dependents8965v;
+
+		UpdateAffordRate();
+		var HH8965v = +HouseIncome8965.value;
+		MCA02.innerHTML = HH8965v;
+
+		// Determine untaxed SS for 8965 line 3 and 8962
+		var dependsocsecv =
+			+D1SSI.value + +D2SSI.value + +D3SSI.value + +D4SSI.value + +D5SSI.value -
+			+D1SST.value - +D2SST.value - +D3SST.value - +D4SST.value - +D5SST.value;
+		socsecv = +TPSSI.value - +TPSST.value + dependsocsecv;
+		MCA03.innerHTML = socsecv;
+
+		Dependents8962.value = dependents8965v + dependsocsecv;
+		HouseIncome8962.value = +HouseIncome8965.value + socsecv;
+		var HH8962v = +HouseIncome8962.value;
+		if (isNaN(HH8962v)) {
+			alert("One of the numbers above has non-numeric characters. Please correct the entry.");
+		}
+		MCA04.innerHTML = HH8962v;
+
+		// Just want the current value of the HH income to see if Gross income is needed
+		if (HHOnly) return (HouseIncome8965.value);
+
+		if (+HouseIncome8962.value + +GrossIncome8965.value == 0) {
+			alert("Please enter the income amounts from all in the household who must file a return.");
+			return;
+		}
+
+		// Determine FPL factor
+		var iFPLm = HH8962v / FedPovLine;
+		var iFPLPercent = iFPLm * 100;
+		// Special rounding rules
+		if (iFPLPercent < 100) iFPLPercent = Math.floor(iFPLPercent);
+		if (iFPLPercent > 399 && iFPLPercent < 400) iFPLPercent = 399;
+		if (iFPLPercent > 400 && iFPLPercent < 999) iFPLPercent = Math.ceil(iFPLPercent);
+		if (iFPLPercent > 999) iFPLPercent = 999;
+		if (TaxYear.value == 2014) iFPLPercent = Math.round(iFPLPercent); // Normal rounding applies - delete in 2018
+		iFPLPercent = Math.floor(iFPLPercent); // New 2015 rules (2014 already rounded up - "else" not required)
+		ifPLPercent = (iFPLPercent/100).toFixed(2);
+		MCA06.innerHTML = ifPLPercent;
+
+		vFPL138 = +FPL138.innerHTML;
+		vFPL249 = FedPovLine * 2.49;
+		FPL8962.innerHTML = "(" + iFPLPercent + "% of FPL)";
+
+		// Add information fields to the Marketplace worksheet
+		SOTbl.style.display = ((HH8962v < vFPL138) && MedicaidY.checked) ? "inline-table" : "none";
+		if (HH8962v < vFPL138) {
+			if (MedicaidN.checked) {
+				NoPTCStop.innerHTML = "<span class='stopflag'>STOP!</span>&nbsp;Household Income is less than 138% of FPL and is from a state that did not expand Medicaid.<br /><span class='instruction'>Use exception code G (Resident of a state that did not expand Medicaid) for each person not covered.</span>"
+				QualForCodeG = true;
+				Silver.value = 0;
+				NoSilver = true;
+				QualForPTC = false;
+			}
+			else if (! SilverOverride.checked) {
+				NoPTCStop.innerHTML = "<span class='noteflag'>NOTE!</span> Household income is less than " + FPL138PCT.innerHTML + " of Fed Poverty Line.<br />The TP does not qualify for the PTC and would have paid the full cost of the Bronze plan.";
+				Silver.value = 0;
+				NoSilver = true;
+				QualForPTC = false;
+			}
+			else {
+				NoPTCStop.innerHTML = "";
+				NoSilver = false;
+				QualForPTC = true;
+			}
+		}
+		else if (HH8962v > (FedPovLine * 4)) {
+			NoPTCStop.innerHTML = "<span class='noteflag'>NOTE!</span> Household income is more than 400% of Fed Poverty Line.<br />The TP does not qualify for the PTC and would pay the full cost of the Bronze plan.";
+			Silver.value = 0;
+			NoSilver = true;
+			QualForPTC = false;
+		}
+		else {
+			NoPTCStop.innerHTML = "";
+			QualForPTC = true;
+		}
+
+		// Display completion messages if any
+		GrossLess.style.display = "none";
+		HouseholdLess.style.display = "none";
+		HouseholdMore.style.display = "none";
+		Household138.style.display = "none";
+		Household249.style.display = "none";
+		AffordTable.disabled = true;
+		AffordButton.style.visibility = "hidden";
+
+		var TH = +(Thresh.innerHTML);
+		if (HH8965v < TH) {
+			HouseholdLess.style.display = "inline";
+		}
+		else if (gross_income < TH) {
+			GrossLess.style.display = "inline";
+		}
+		else if ((HH8962v < vFPL138) && MedicaidN.checked) { // Add socsecv back in
+			Household138.style.display = "inline";
+		}
+		else if ((HH8965v >= vFPL138) && (HH8965v <= vFPL249)
+			&& (socsecv == 0)
+			&& (FilingStatus.value != "MFS")) {
+			Household249.style.display = "inline";
+			AffordTable.disabled = false;
+			AffordButton.style.visibility = "visible";
+		}
+		else { // Initialize and activate the affordability worksheet
+			HouseholdMore.style.display = "inline";
+			AffordTable.disabled = false;
+			AffordButton.style.visibility = "visible";
+		}
+	AffordTest();
+	ShadeDepList(true);
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Called when the Affordability worksheet "Click to test" button is clicked
+	function AffordTest() {
+	//----------------------------------------------------------------------------------------
+		var PremiumCost = 0;
+		var QualForCodeGNum = 0;
+		var QualForCodeGCost = 0;
+		var PinkWarning = false;
+
+		// See if MCA Wkt is being used
+		if ((Bronze.value != "") || ((Silver.value != "") && (Silver.value != "0"))) {
+			MCACalc = true;
+			MCATable.class = "doPrint";
+		}
+		if ((Bronze.value == "") && (Silver.value == "")) {
+			MCACalc = false;
+			MCATable.class = "noPrint";
+			TPMarket.value = "";
+			SPMarket.value = "";
+			D1Market.value = "";
+			D2Market.value = "";
+			D3Market.value = "";
+			D4Market.value = "";
+			D5Market.value = "";
+			MCA12.innerHTML = "";
+		}
+
+		// Determine the minimum family plan offered
+		FamilyTaken = 0;
+		if (TPFamilySal.checked) FamilyTaken = Math.max(0.00001, +TPFamily.value/MoYr);
+		if (SPFamilySal.checked) FamilyTaken = Math.max(0.00001, +SPFamily.value/MoYr);
+		switch (fmTP = TPFamily.value) {
+			case "":
+			case "X": fmTP = -1; break;
+			case "0": fmTP = 0.00001; break;
+		}
+		switch (fmSP = SPFamily.value) {
+			case "":
+			case "X": fmSP = -1; break;
+			case "0": fmSP = 0.00001; break;
+		}
+		switch (true) {
+			case ((fmTP > 0) && (fmSP > 0)):
+				FamilyMinimum = Math.min(+fmTP, +fmSP);
+				// TwoFamilyPlans if they cost differently, else it doesn't matter
+				TwoFamilyPlans = (fmTP == fmSP) ? false : true;
+				break;
+			case (fmTP > 0): FamilyMinimum = +fmTP; break;
+			case (fmSP > 0): FamilyMinimum = +fmSP; break;
+			default: FamilyMinimum = 0;
+		}
+		FamilyMinimum = FamilyMinimum / MoYr; // Change to a monthly figure for internal calcs
+		FamilyPlan = (FamilyMinimum > 0) ? true:false;
+
+		for (var xP = 0; xP < 7; xP++) {
+			ptr1 = document.getElementById(PersonList[xP] + "Self");
+			ptr2 = document.getElementById(PersonList[xP] + "Family");
+			ptr3 = document.getElementById(PersonList[xP] + "Market");
+			ptrR = document.getElementById(PersonList[xP] + "Result");
+			ptrC = document.getElementById(PersonList[xP] + "Cost");
+			ptrP = document.getElementById(PersonList[xP] + "Pcnt");
+			ptrX = document.getElementById(PersonList[xP] + "Exm");
+			ptrSS = document.getElementById(PersonList[xP] + "SelfSal");
+			ptrSF = document.getElementById(PersonList[xP] + "FamilySal");
+
+			// xPcovered, if true, prevents cost to be entered in the month cells
+			xPcovered = ((ptrX.value == "EXM") || (ptrX.value == "MEC")) ? true:false;
+			if ((FamilyMinimum > 0) && (ptrX.value == "EXM")) ptr2.value = "X";
+
+			// spread the lowest cost family plan cost across to all not already with a value or "X"
+			if ((ptr2.disabled == false) && (FamilyMinimum > 0) && (ptr2.value != "X")) {
+				P2temp = ptr2.value;
+				if ((P2temp == "") || (! TwoFamilyPlans)) P2temp = (FamilyTaken) ? +FamilyTaken * MoYr : +FamilyMinimum * MoYr;
+				//ptr2.value = (P2temp < 1) ? 0 : Math.round(+P2temp).toFixed(2);
+				ptr2.value = (P2temp < 1) ? 0 : (+P2temp).toFixed(2);
+				if (((xP > 1) && (FamilyTaken) && (FamilyTaken >= (ptr2.value/MoYr)))
+				|| ((xP == 0) && SPFamilySal.checked && TPinSPYes.checked)
+				|| ((xP == 1) && TPFamilySal.checked && SPinTPYes.checked)) {
+					if (ptrX.value != "MEC") MECChangeFlag = true;
+					ptrX.value = "MEC";
+					xPcovered = true;
+				}
+			}
+			// unless EXM
+			if ((xP > 1) && (ptrX.value == "EXM")) ptr2.value = "X";
+
+			var MonthCost = 0;
+			var PYCost = 0;
+			QualForCodeA[xP] = false;
+
+			// Load the MCA worksheet result into line 3
+			if ((MCACalc) && (! ptr1.disabled)) ptr3.value = MCA12.innerHTML * MoYr;
+
+			// Is there a self-only plan?
+			switch (ptr1.value) {
+				case "0": ptr1val = 0.00001; break;
+				case "X": ptr1val = 0; break;
+				default: ptr1val = +ptr1.value;
+			}
+			var PremiumCost = ptr1val / MoYr; // change to a monthly rate
+			if ((PremiumCost > 0) && (PremiumCost <= +HIAffordRatePerMo)) {
+				QualForCodeGNum += 1;
+				QualForCodeGCost += PremiumCost; // sum of individual plans for Code G test
+			}
+
+			// Is there a family plan?
+			if ((xP > 1) && (! FamilyPlan)) ptr2.value = "";
+			FamilyUnqualified = false;
+			if (PremiumCost == 0) { // no Self plan
+				if (xPcovered) ptr2val = 0; // Hides the cost internally if already covered
+				else switch (ptr2.value) {
+					case "0": ptr2val = 0.00001; break;
+					case "X": ptr2val = 0; break;
+					default:
+						ptr2val = +ptr2.value;
+						switch (xP) {
+							case 0:
+								if ((fmSP > 0) && (fmSP < ptr2val) && (TPinSPYes.checked)) ptr2val = fmSP;
+								break;
+							case 1:
+								if ((fmTP > 0) && (fmTP < ptr2val) && (SPinTPYes.checked)) ptr2val = fmTP;
+								break;
+							default :
+								ptr2val = +ptr2.value;
+						}
+				}
+				PremiumCost += +(+ptr2val / MoYr).toFixed(2);
+			}
+
+			// Do we use the Marketplace plan?
+			var NoEmploymentPlan = (PremiumCost > 0) ? false:true;
+			if (PremiumCost == 0) PremiumCost = +(ptr3.value / MoYr); // no Self or Family plan
+
+			// Qualfied for testing
+			Unqualified[xP] = false;
+			Unqualified[xP] = (xPcovered || ((xP < 2) && (ptrSS.checked)) || (FamilyUnqualified > 0));
+			QualForACode[xP] = false;
+
+			for (var xMonth = 1; xMonth < 13; xMonth++) {
+
+				ptrX = document.getElementById(PersonList[xP] + "Exm");
+				ptrM = document.getElementById(PersonList[xP] + xMonth);
+				ptrV = document.getElementById("Check" + xMonth);
+
+				// Find months where an exemption applies
+				if ((! ptrV.checked) && (! xPcovered)) {
+
+					// Add the premium cost to the month cell
+					if (MCACalc || (PremiumCost > 0)) {
+						ptrM.value = (PremiumCost * MoYr).toFixed(2);
+					}
+			    		if (! ptrV.checked) MonthCost = +ptrM.value;
+
+					// Highlight the cell in green if unaffordable
+					if ((MCACalc || (PremiumCost > 0)) && (PremiumCost > +HIAffordRatePerMo) && (! Unqualified[xP])) {
+						if (! ptr1.disabled) {
+							ptrM.style.backgroundColor = "lightgreen";
+							ptrM.value = "A: " + ptrM.value;
+						}
+						QualForCodeA[xP] = true; // this month
+						QualForACode[xP] = true; // any month
+				    	}
+					else {
+						if (PremiumCost == 0) ptrM.value = (MCACalc && (! ptrM.disabled)) ? 0:"";
+						ptrM.style.backgroundColor = "";
+					}
+
+					PYCost += PremiumCost;
+				}
+				if ((! ptrV.checked) && (xPcovered)) {
+					if (ptrM.value == "") ptrM.value = ptrX.value;
+					ptrM.style.backgroundColor = "";
+				}
+				if (ptrM.style.backgroundColor == "lightgreen") QualForACode[xP] = true;
+			}
+
+		// Get annual cost and percentage of affordability threshold
+		if (! ptr1.disabled) {
+			pcv = (12 * MonthCost / MoYr).toFixed(2);
+			if (isNaN(pcv) || (pcv == 0)) {
+				ptrP.value = ptrC.value = "N/A";
+			}
+			else {
+				ptrC.value = pcv;
+				ptrP.value = ((100 * pcv / HIA).toFixed(2)) + "%";
+			}
+
+			if (! QualForACode[xP]) {
+				if (ptrX.value == "EXM") ptrR.innerHTML = "Use EXM";
+				else ptrR.innerHTML = "None";
+						ptrR.style.backgroundColor = "";
+					}
+				}
+
+		// Test for Code G
+		QualForCodeG = ((QualForCodeGNum > 1)
+				&& (QualForCodeGCost > +HIAffordRatePerMo)
+				&& (! TPFamilySal.checked)
+				&& ((TPFamily.value == 0) || (TPFamily.value > +HIAffordRatePerMo))
+				&& ((SPFamily.value == 0) || (SPFamily.value > +HIAffordRatePerMo))
+				&& (! SPFamilySal.checked)) ?  true:false;
+		if ((+(HouseIncome8962.value) < vFPL138) && MedicaidN.checked) QualForCodeG = true;
+
+		// Show the exception code if Code A
+		if (! ptr1.disabled) {
+			if ((PYCost == 0) && (! MCACalc)) {
+				if (! Unqualified[xP]) {
+					ptrR.innerHTML = (QualForCodeG) ? "Code G":"?";
+					ptrR.style.backgroundColor = (QualForCodeG) ? "lightgreen":"hotpink";
+					PinkWarning = true;
+				}
+			}
+			else if ((QualForCodeA[xP]) || (QualForACode[xP])) {
+					ptrR.innerHTML = "Code A";
+					ptrR.style.backgroundColor = "lightgreen";
+				}
+				else {
+					if (ptrX.value == "EXM") ptrR.innerHTML = "Use EXM";
+					else ptrR.innerHTML = "None";
+					ptrR.style.backgroundColor = "";
+				}
+			}
+		}
+
+		// Did we change a coverage category?
+		if (MECChangeFlag) {
+			alert("Because the employer plan was taken, all persons covered by that plan have been changed to \"MEC\".");
+			MECChangeFlag = false;
+		}
+
+		// Show the exception code if Code G
+		if (QualForCodeG) {
+			for (var xP = 0; xP < 7; xP++) {
+				ptrX = document.getElementById(PersonList[xP] + "Exm");
+				ptr1 = document.getElementById(PersonList[xP] + "Self");
+				ptrR = document.getElementById(PersonList[xP] + "Result");
+				if (! ptr1.disabled) {
+					if (! Unqualified[xP]) {
+						if (ptrX.value == "EXM") ptrR.innerHTML = "Use EXM";
+						else {
+							ptrR.innerHTML = "Code G";
+							ptrR.style.backgroundColor = "lightgreen";
+							ptrR.title = "Combined total family cost > " + (_AffordRate[TaxYear.value]*100).toFixed(2) + "%";
+						}
+					}
+					else {
+						ptrR.innerHTML = (ptrX.value == "EXM") ? "Use EXM":"None";
+						ptrR.style.backgroundColor = "";
+						ptrR.title = "";
+					}
+				}
+				for (var xMonth = 1; xMonth < 13; xMonth++) {
+					ptrM = document.getElementById(PersonList[xP] + xMonth);
+					if ((! Unqualified[xP]) && (ptrX.value != "")) {
+						ptrM.value = (+ptr1.value).toFixed(2);
+						ptrM.style.backgroundColor = "lightgreen";
+					}
+				}
+			}
+		}
+
+		if (QualForCodeG) {
+			var message = "if the family qualifies for code G in any month, ";
+			message += "it applies for the entire year for all family members ";
+			message += "who need an exemption.\n\n";
+			response = alert(message);
+			return;
+		}
+
+		// Employer-offered self-only plan test
+		if ((false) && (NoPTCStop.innerHTML == "")) { // Essentially skipped
+			NoPTCStop2Msg = "<span class='noteflag'>NOTE!</span> Cost of self-only policy offered by employer is less than " + _AffordRateEmployerSelf[TaxYear.value]*100 + "% of Household Income.<br />The TP does not qualify for the PTC and would have payed the full cost of the Bronze plan.";
+			if (! FamilyPlan) {
+				NoPTCStop2Msg += "<br />Other family members are, however, eligible for the PTC since there is no family plan offered."
+				NoSilver = false;
+			}
+			else {
+				Silver.value = 0;
+				NoSilver = true;
+			}
+			NoPTCStop2.innerHTML = NoPTCStop2Msg;
+			NoPTCStop2.title = "When the marketplace figures out if the plan your job offers is too expensive, it looks at how much it costs you to pay for an employee plan (just for you), not a family plan (what you&apos;d buy for your family, which usually costs more). So, even if a family plan is too expensive for you, if an individual employee plan is not too expensive, then the marketplace will say that your workplace coverage is affordable for any family members who could be covered by that family plan. You can&apos;t get financial assistance to help pay for a plan for these family members in the marketplace.";
+		}
+		else {
+			NoPTCStop2.innerHTML = "";
+		}
+	InsureLists(); // Show who must be included in Bronze/Silver plans
+	}
+
+
+	//----------------------------------------------------------------------------------------
+	// Show or hide the Annualized Premium Worksheet in the Affordability Worksheet instructions
+	function UseAPW() {
+	//----------------------------------------------------------------------------------------
+		switch (APW_Visible) {
+			case true:
+				APW.style.display = "none";
+				APW_Visible = false;
+				OpenAPW.innerHTML = "Click to open";
+				break;
+			case false:
+				APW.style.display = "inline";
+				APW_Visible = true;
+				OpenAPW.innerHTML = "Click to close";
+				break;
+		}
+	}
+
+	//----------------------------------------------------------------------------------------
+	// This functions recalculates the APW worksheet result when input is changed
+	function ChangeAPW() {
+	//----------------------------------------------------------------------------------------
+		if (+APWMonths.value > 0) {
+			APWAmount.innerHTML = (+APWPremiums.value * MoYr / +APWMonths.value).toFixed(2);
+		}
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Called when the bottom button on the Marketplace Affordability Worksheet has been clicked
+	function GoToRetest() {
+	//----------------------------------------------------------------------------------------
+		Retest.focus();
+		Retest.click();
+	}
+
+	//----------------------------------------------------------------------------------------
+	// Called to change the state URL for marketplace premium costs
+	function Change_StateURL(
+		action
+			// prompt: show the input box and Save button
+			// save: change the URL in the link
+			// show: show it (used when the cookie is read and after a new URL)
+		) {
+	//----------------------------------------------------------------------------------------
+		switch (action) {
+			case ("prompt"):
+				coststatelink.style.display = coststatechange.style.display = "none";
+				coststatenew.style.display = coststateok.style.display = "inline";
+				if (StateURL != "") coststatenew.value = StateURL;
+				break;
+			case ("save"):
+				StateURL = coststatenew.value;
+				coststatelink.style.display = coststatechange.style.display = "inline";
+				coststatenew.style.display = coststateok.style.display = "none";
+				_Write_Cookie("StateExchange",StateURL);
+				// no break
+			case ("show"):
+				if (StateURL == "") {
+					coststatelink.innerHTML = "<i>&lArr; Enter and save your state exchange URL</i>";
+				}
+				else if ((StateURL.substring(0,4) == "http") || (StateURL.substring(0,3) == "ftp")) {
+					coststatelink.innerHTML = "<a href=\"" + StateURL + "\" target=\"_blank\">" + StateURL + "</a>";
+				}
+				else {
+					coststatelink.innerHTML = StateURL;
+				}
+		}
+
+	}
+
+	//----------------------------------------------------------------------------------------
+	// clearChecks clears the month check marks and resets the QualForCodeG status
+	function ClearMonths(
+		clearChecks	// true/false, true resets the QualForCodeG indicator
+		) {
+	//----------------------------------------------------------------------------------------
+		if (QualForCodeG && (! clearChecks)) return;
+
+		for (var xP = 0; xP < 7; xP++) {
+			ptrR = document.getElementById(PersonList[xP] + "Result");
+			ptrR.innerHTML = "";
+			ptrR.style.backgroundColor = "";
+			for (var xMonth = 1; xMonth < 13; xMonth++) {
+				ptrM = document.getElementById(PersonList[xP] + xMonth);
+				ptrV = document.getElementById("Check" + xMonth);
+				if (clearChecks) ptrV.checked = false;
+				if (! ptrV.checked) {
+					ptrM.style.backgroundColor = "";
+					ptrM.value = "";
+				}
+			}
+			ptrM = document.getElementById(PersonList[xP] + "Market");
+			ptrM.value = "";
+			ptrC = document.getElementById(PersonList[xP] + "Cost");
+			ptrC.value = "";
+			ptrP = document.getElementById(PersonList[xP] + "Pcnt");
+			ptrP.value = "";
+		}
+		if (QualForPTC) NoSilver = false;
+		if (clearChecks) QualForCodeG = false;
+	}
+
+</script>
+
+</head>
+
+<!-- ******************************************************************************************************** -->
+<!-- **************************************** START OF HTML ************************************************* -->
+<!-- ******************************************************************************************************** -->
+
+<body onload="Initialize()">
+
+<center>
+	<span class="title">MA Health Care Affordability Calculator</span>
+	<br><span id="Version">(Version 0.1, 6/19/2019)</span><script>Version.innerHTML = VERSION;</script>
+	<br>&nbsp;
+</center>
+
+<div id="Instructions" class="noPrint">
+	<a href="http://cotaxaide.org/tools/Instructions/ACA%20Instructions.pdf" target="_blank"><button>Tutorial</button></a>
+</div>
+
+<div id="ClearAndPrint" class="noPrint">
+	<button onclick="window.open(window.location, &#39;_self&#39;)">Clear and reset calculator</button>
+	<br><button onclick="window.print()">Print a taxpayer copy</button>
+</div>
+
+<!-- ****************************************** FILING INFORMATION TABLE ****************************************** -->
+<div id="FilingInfo">
+	<h1>Basic Filing Information:</h1>
+	<table id="FilingInfoTbl">
+		<tbody><tr>
+			<td>Taxpayer's Name:</td>
+			<td><input id="TPName" title="Enter the taxpayer&#39;s name. Consider printing the results for the taxpayer&#39;s record"></td>
+		</tr>
+		<tr>
+			<td>Tax Year:</td>
+			<td><select id="TaxYear" title="Select the tax year being prepared." onchange="FileChange()">
+						<option value="2018">2018</option>
+				    <option value="2019">2019</option></select></td>
+		</tr>
+		<tr>
+			<td>Filing Status:</td>
+			<td style="text-align:top">
+				<select id="FilingStatus" onchange="FileChange()" title="Select the taxpayer&#39;s filing status.">
+					<option value="SNG">Single</option>
+					<option value="MFJ">MFJ</option>
+					<option value="MFS">MFS</option>
+					<option value="HOH">HOH</option>
+					</select></td>
+				</tr>
+
+		<tr>
+			<td>Family Size:</td>
+			<td><input id="FamilySize" size="3" value="1" onchange="FileChange()" onkeyup="FileChange()"
+				title="Enter TP, SP (if living in the same household at any point during the year), and any claimed dependents. If MFS and living in same household at any point during the year, include all dependents claimed by TP and SP"></td>
+			</tr>
+		</tbody></table>
+</div> <!-- FilingInfo -->
+<br>
+<!-- ****************************************** AGI INFORMATION TABLE ****************************************** -->
+
+<div id="AGIInfo">
+	<h1>AGI Information:</h1>
+	<table id="AGIInfoTbl">
+		<tbody><tr>
+			<td>Federal AGI:</td>
+			<td><input id="TPAGI" size="7" type="number" onchange="CheckFPL150()" title="Enter Federal AGI"></td>
+		</tr>
+			<tr>
+				<td>AGI of SP (if filing MFS and SP lived in household):</td>
+				<td><input id="SPAGI" size="7" type="number" onchange="CheckFPL150()" title="Enter only if MFS and Spouse lived in the household"></td>
+		</tr>
+		<tr>
+			<td>Total AGI</td>
+			<td><input id="TotAGI" size="7" disabled title="Total AGI"></td>
+	</tr>
+		<tbody></table>
+	</div>
+<br>
+<!-- ****************************************** < 150% FPL INFORMATION TABLE ****************************************** -->
+
+<div id="FPL150Info">
+	<h1>FPL 150%</h1>
+	<table id="FPL150Tbl">
+		<tbody><tr>
+<td><p id="FPL150Message"></td>
+		</tr>
+		<tbody></table>
+	</div>
+<br>
+<div id="EmployerOffer">
+	<h1>Employer Insurance</h1>
+	<table id="EmployerTbl">
+		<tbody><tr>
+				<td>Offer of Employer Insurance:</td>
+				<td style="text-align:top">
+					<select id="EmployerInsuranceOffer" onchange="EmployerOffer()" title="Was the TP offered insurance during the uninsured period that covered entire family?">
+            <option value="">-</option>
+						<option value="No">No</option>
+						<option value="Yes">Yes</option>
+						</select></td>
+		</tr>
+			<td>Lowest Monthly Premium:</td>
+			<td><input id="EmployerPremium" size="7" type="number" onchange="EmployerOffer()" title="Enter the lowest monthly premium cost of health insurance that would cover family during uninsured period."></td>
+		</tr>
+		<tbody></table>
+	</div>
+<br>
+
+<!--  If the taxpayer was below 300% FPL, then eligible for MassHealth or subsized insurance, so coverage would be affordable
+unless either
+1. not in US legally
+2. Employer offer < 9.56% of AGI
+3. Previously had been denied MassHealth or subsized coverage from Mass Health Connector -->
+
+<div id="FPL300Info">
+	<h1>FPL 300%</h1>
+	<table id="FPL300Tbl">
+		<tbody><tr>
+			<td>Citizen or Legal Resident?</td>
+			<td style="text-align:top">
+				<select id="CitizenLegalResident" onchange="CheckFPL300()" title="Was the Taxpayer a citizen or legal resident?">
+          <option value="">-</option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+					</select></td></tr>
+
+		<tr>
+		<td>Applied and were denied MassHealth/Subsidized Insurance?</td>
+		<td style="text-align:top">
+			<select id="GovInsurance" onchange="CheckFPL300()" title="Was the Taypayer denied MassHealth or subsidized insurance from the Mass Health Connector?">
+        <option value="">-</option>
+				<option value="No">No</option>
+				<option value="Yes">Yes</option>
+				</select></td></tr>
+	<tr>
+	<td><p id="FPL300Message"></td>
+	</tr>
+		<tbody></table>
+	</div>
+<br>
+<div id="PrivateInsurance">
+	<h1>Private Insurance</h1>
+	<table id="PrivateTbl">
+		<tbody><tr>
+			<td>County of Residence:</td>
+			<td style="text-align:top">
+				<select id="County" onchange="PrivateOffer()" title="Select the taxpayer&#39;s county of residence.">
+					<option value="Plymouth">Plymouth</option>
+					<option value="Berkshire">Berkshire</option>
+					<option value="Franklin">Franklin</option>
+					<option value="Hampshire">Hampshire</option>
+					<option value="Barnstable">Barnstable</option>
+					<option value="Bristol">Bristol</option>
+					<option value="Essex">Essex</option>
+					<option value="Hampden">Hampden</option>
+					<option value="Middlesex">Middlesex</option>
+					<option value="Norfolk">Norfolk</option>
+					<option value="Suffolk">Suffolk</option>
+					<option value="Worcester">Worcester</option>
+					<option value="Duekes">Dukes</option>
+					<option value="Nantucket">Nantucket</option>
+					</select></td>
+		</tr>
+		<tr>
+		<td>Age (older spouse if MFJ):</td>
+		<td>
+			<input id="TPAge" onchange="PrivateOffer()" title="Enter Age (if MFJ or MFS and SP lives in household, age of older spouse)">
+		</td>
+	</tr>
+		<tr>
+		<td>Insurance Plan:</td>
+		<td style="text-align:top">
+			<select id="County" onchange="PrivateOffer()" title="Select the taxpayer&#39;s county of residence.">
+				<option value="IndividualPlan">Individual</option>
+				<option value="MarriedCouplePlan">Married Couple (No dependents)</option>
+				<option value="FamilyPlan">Family Plan</option>
+				</select></td>
+	</tr>
+		<tbody></table>
+	</div>
+<br>
+<div class="noPrint">
+	  Thanks to Jeff Bogart for the initial version of this calculator.
+<br>
+	  Please send corrections and suggestions to <a href="mailto:mdmaggio7@gmail.com">mdmaggio7@gmail.com</a><br>
+	  <span id="printbutton2" style="float: right;"><button onclick="window.print()">Print a taxpayer copy</button></span>
+</div>
+
+</body></html>
