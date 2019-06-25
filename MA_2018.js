@@ -1,24 +1,9 @@
         //----------------------------------------------------------------------------------------
         var _TY = _StopYear = "2018"; // Tax parameters
         //----------------------------------------------------------------------------------------
-        Barnstable	2
-        Berkshire	1
-        Bristol	2
-        Dukes	3
-        Essex	2
-        Franklin	1
-        Hampden	2
-        Hampshire	1
-        Middlesex	2
-        Nantucket	3
-        Norfolk	2
-        Plymouth	2
-        Suffolk	2
-        Worcester	2
+        _FPL[_TY] = 7880;
+        _FPLAddr[_TY] = 4180;
 
-        _FPL[_TY] = 7880
-        _FPLAddr[_TY] = 4180
-        
         // Regions
         // var Region = [];
 
