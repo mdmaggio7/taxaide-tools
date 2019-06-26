@@ -118,44 +118,29 @@
 </style>
 
 
+<script src="./MA_Global.js"></script>
 <script src="./MA_2018.js"></script>
+<script src="./MA_2019.js"></script>
 <script type="text/javascript">
 
+var VERSION;
+// --------------------------------------------------------------------------------
+// CHANGE HISTORY:
+var VERSION = "(Version 0.1, 6/19/2019)";
+// Initial version from Jeff Bogart's ACA calculator with permission and thanks
 
-	var VERSION;
-	// --------------------------------------------------------------------------------
-	// CHANGE HISTORY:
-	var VERSION = "(Version 0.1, 6/19/2019)";
-	// Initial version from Jeff Bogart's ACA calculator with permission and thanks
+var FedPovLine = 0;
+var FPL;
+var FPLAddr;
+var Penalty = false;
+var TYindex = 0;
 
-	var FedPovLine = 0;
-	var FPL = 7880;
-	var FPLAddr = 4180;
-	var Penalty = false;
-
-	// Regions
-	// var Region = [];
-
-	_Region["Berkshire"] = "1";
-	_Region["Franklin"] = "1";
-	_Region["Hampshire"] = "1";
-	_Region["Bristol"] = "2";
-	_Region["Barnstable"] = "2";
-	_Region["Hampden"] = "2";
-	_Region["Middlesex"] = "2";
-	_Region["Norfolk"] = "2";
-	_Region["Plymouth"] = "2";
-	_Region["Suffolk"] = "2";
-	_Region["Worcester"] = "2";
-	_Region["Essex"] = "2";
-	_Region["Dukes"] = "3";
-	_Region["Nantucket"] = "3";
 
 	//----------------------------------------------------------------------------------------
 	// This function readjusts settings when filing status information is changed
 	function FileChange() {
 	//----------------------------------------------------------------------------------------
-alert("entering filechange");
+//alert("entering filechange");
 	switch (FilingStatus.value) {
 		case "MFS":
 			SPAGI.disabled = false;
@@ -176,7 +161,12 @@ alert("entering filechange");
 			FamilySize.disabled = true;
 			break;
 		}
-alert("exiting filechange");
+		FPL = _FPL[TaxYear.value];
+		FPLAddr = _FPLAddr[TaxYear.value];
+		alert("TaxYear.value is " +TaxYear.value);
+		alert("FPL is " +FPL);
+		alert("FPLAddr is " +FPLAddr);
+
 }
 
 	//----------------------------------------------------------------------------------------
@@ -185,13 +175,7 @@ alert("exiting filechange");
 	//----------------------------------------------------------------------------------------
 		// Add tax year options
 //		TaxYear.length = 0;
-		var tyOptIndex = 0;
-//		_StartYear = Math.max(2014,_StartYear); // ACA N/A prior to 2014
-//		for (var ty = _StartYear; ty <= _StopYear; ty++) {
-//			var tyopti = document.createElement("option");
-//			tyopti.text = tyopti.value = ty;
-//			TaxYear.add(tyopti,tyOptIndex++);
-//		}
+
 
 //alert("entering initialize");
 
@@ -202,8 +186,9 @@ alert("exiting filechange");
 //	alert("middle of initialize");
 //		FPL = _FPL[TaxYear];
 //		FPLAddr = _FPLAddr[TaxYear];
-		FPL = 7880;
-		FPLAddr = 4180;
+
+//		FPL = _FPL[TaxYear.value];
+//		FPLAddr = _FPLAddr[TaxYear.value];
 		FamilySize.value = 1;
 		FamilySize.disabled = true;
 		FilingStatus.value = "SNG";
@@ -213,6 +198,8 @@ alert("exiting filechange");
 		Penalty = false;
 		FileChange();
 //		alert("exiting initialize");
+alert("length of _Region is " +_Region.length);
+alert("_Region Dukes is " +_Region["Dukes"]);
 	}
 
 
