@@ -38,6 +38,7 @@
 	.aff_td { text-align:center; }
 	.aff_exm { width: 6em; text-align:left; }
 	#TPName { width:20em; text-align:left; }
+	#FamilySize { width:3em; }
 	#APW { display: none; background-color: white; }
 	#Instructions { width: 16em;
 		text-align:center;
@@ -80,6 +81,8 @@
 	#GrossInputMessage { display: block; float: left; padding-left: 1em; }
   #FPL150Message { display: block; float: left; padding-left: 1em; color:red;}
 	#FPL300Message { display: block; float: left; padding-left: 1em; color:red ;}
+  #EmployerMessage { display: block; float: left; padding-left: 1em; color:red ;}
+  #PrivateMessage { display: block; float: left; padding-left: 1em; color:red ;}
 	#TwoFamilyQuestions { display: none}
 	#AffordTbl1 tr td:nth-child(1) { width:35%; }
 	#AffordTbl1 tr td:nth-child(2) { width:10%; }
@@ -149,24 +152,26 @@ var TYindex = 0;
 		case "MFJ":
 		case "HOH":
 			SPAGI.disabled = true;
-			SPAGI.value = 0;
+			SPAGI.value = "";
 			SPAGI.innerHTML = "";
 			FamilySize.disabled = false;
+			TotAGI.value = TPAGI.value;
 			break;
 		case "SNG":
 		  SPAGI.disabled = true;
-	   	SPAGI.value = 0;
+	   	SPAGI.value = "";
 	  	SPAGI.innerHTML = "";
 			FamilySize.value = 1;
 			FamilySize.disabled = true;
+			TotAGI.value = TPAGI.value;
 			break;
 		}
 		FPL = _FPL[TaxYear.value];
 		FPLAddr = _FPLAddr[TaxYear.value];
-		alert("TaxYear.value is " +TaxYear.value);
-		alert("FPL is " +FPL);
-		alert("FPLAddr is " +FPLAddr);
-
+		CheckFPL150();
+		CheckFPL300();
+		EmployeeOffer();
+		PrivateOffer();
 }
 
 	//----------------------------------------------------------------------------------------
@@ -187,19 +192,17 @@ var TYindex = 0;
 //		FPL = _FPL[TaxYear];
 //		FPLAddr = _FPLAddr[TaxYear];
 
-//		FPL = _FPL[TaxYear.value];
-//		FPLAddr = _FPLAddr[TaxYear.value];
+    FPL = _FPL[TaxYear.value];
+    FPLAddr = _FPLAddr[TaxYear.value];
 		FamilySize.value = 1;
 		FamilySize.disabled = true;
 		FilingStatus.value = "SNG";
 	//			alert("middle of initialize");
 		SPAGI.disabled = true;
-		TPAGI.value = SPAGI.value = 0;
+		TPAGI.value = SPAGI.value = "";
 		Penalty = false;
-		FileChange();
+//		FileChange();
 //		alert("exiting initialize");
-alert("length of _Region is " +_Region.length);
-alert("_Region Dukes is " +_Region["Dukes"]);
 	}
 
 
@@ -230,17 +233,22 @@ alert("_Region Dukes is " +_Region["Dukes"]);
 	function CheckFPL300() {
 		TotAGI.value = +TPAGI.value + +SPAGI.value;
 		FPL300 = (FPL + (FamilySize.value * FPLAddr)) * 3;
-		if (TotAGI.value <= FPL300 &&  CitizenLegalResident.value == "Yes" && GovInsurance.value == "No") {
-			FPL300Message.innerHTML =  "Eligible for MassHealth/Subsidized Coverage. Penalty Applies.";
-			Penalty = true;
+		if (TotAGI.value > FPL300 || CitizenLegalResident.value == "No" || GovInsurance.value == "Yes") {
+			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized - Continue to next test.";
+		}
+		else if (CitizenLegalResident.value == "" ||  GovInsurance.value == "") {
+			FPL300Message.innerHTML = "";
 		}
 		else {
-			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsized - Continue to next test.";
+			FPL300Message.innerHTML =  "Eligible for MassHealth/Subsidized Coverage. Penalty Applies.";
+			Penalty = true;
 		}
 	//	message = "FPL=" + FPL150 + "TotAGI.value=" + TotAGI.value + "In CheckFPL150\n\n"
 	//  alert (message);
 	}
 	function EmployerOffer() {
+
+
 
 	}
 
@@ -297,7 +305,7 @@ alert("_Region Dukes is " +_Region["Dukes"]);
 
 		<tr>
 			<td>Family Size:</td>
-			<td><input id="FamilySize" size="3" value="1" onchange="FileChange()" onkeyup="FileChange()"
+			<td><input id="FamilySize" maxlength="3" type="number" value="1" onchange="FileChange()"
 				title="Enter TP, SP (if living in the same household at any point during the year), and any claimed dependents. If MFS and living in same household at any point during the year, include all dependents claimed by TP and SP"></td>
 			</tr>
 		</tbody></table>
@@ -348,6 +356,9 @@ alert("_Region Dukes is " +_Region["Dukes"]);
 		</tr>
 			<td>Lowest Monthly Premium:</td>
 			<td><input id="EmployerPremium" size="7" type="number" onchange="EmployerOffer()" title="Enter the lowest monthly premium cost of health insurance that would cover family during uninsured period."></td>
+		</tr>
+		<tr>
+<td><p id="EmployerMessage"></td>
 		</tr>
 		<tbody></table>
 	</div>

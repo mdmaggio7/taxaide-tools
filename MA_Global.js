@@ -23,6 +23,10 @@ var _QBILimits = [];
 var _NIITLimits = [];
 var _AMT = [];
 var _SALT = [];
+var FPL150 = 0;
+var FPL300 = 0;
+var FPL = 0;
+var FPLAddr = 0;
 
 var _Region = [];
 
@@ -36,7 +40,7 @@ var _ThisMonth = +_ThisDate.getMonth(); // 0 = January
 var d = (_ThisMonth < 4) ? 1:0; // shift in May
 //Reenable this line once we have more than 3 years supported
 // var _StartYear = _ThisYear - 3 - d;
-var _StartYear = "2018";
+var _StartYear = 2018;
 var _StopYear = _ThisYear - d; // overridden by individual year file
 var d = (_ThisMonth < 11) ? 1:0; // start default year in December
 var _DefaultYear = _ThisYear - d;

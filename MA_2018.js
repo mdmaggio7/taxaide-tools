@@ -9,9 +9,12 @@
 // 2018, 2019
 // 2019 values are not correct - just created to test
 
-       _FPL[_TY] = "7880";
-       _FPLAddr[_TY] = "4180";
+       _FPL[_TY] = 7880;
+       _FPLAddr[_TY] = 4180;
 
+
+      _AffordTab1[_TY + "Income"] = (18090, 24120, 30150, 36180, 42210, 48240);
+      _AffordTab1[_TY + "AffordPerc"] = (0.0, 0.029, 0.042, 0.05, 0.0745, 0.076, 0.0805);
 //
 //        Table 3 Affordability
 //Income	Percent	Income	Percent	Income	Percent
