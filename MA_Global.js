@@ -13,6 +13,7 @@ var _CTCLimits = [];
 var _EICRates = [];
 var _FPL = []; // Federal Poverty Line
 var _FPLAddr = [];
+var _IndividualPercentage = [];
 var _PTCFactorVal = [];
 var _AffordRate = [];
 var _AffordRateEmployerSelf = [];
@@ -25,10 +26,17 @@ var _AMT = [];
 var _SALT = [];
 var FPL150 = 0;
 var FPL300 = 0;
-var FPL = 0;
-var FPLAddr = 0;
+var FPL;
+var FPLAddr;
 
 var _Region = [];
+var _AffordTab1 = [];
+var _AffordTab2 = [];
+var _AffordTab3Plus = [];
+var _PremiumRegion1 = [];
+var _PremiumRegion2 = [];
+var _PremiumRegion3 = [];
+
 
 //------------------------------------------------------------
 // DATE VARIABLES

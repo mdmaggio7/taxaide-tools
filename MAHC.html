@@ -54,18 +54,18 @@
 		z-index:2;
 		position:absolute; top:0em; right:2em; }
 	#ClearAndPrint button { margin: 2px; }
-	#FilingInfoTbl tr td:nth-child(1) { width:50%; }
-	#FilingInfoTbl tr td:nth-child(2) { width:50%; }
-	#AGIInfoTbl tr td:nth-child(1) { width:50%; }
-	#AGIInfoTbl tr td:nth-child(2) { width:50%; }
-	#FPL150Tbl tr td:nth-child(1) { width:50%; }
-	#FPL150Tbl tr td:nth-child(2) { width:50%; }
-	#FPL300Tbl tr td:nth-child(1) { width:50%; }
-	#FPL300Tbl tr td:nth-child(2) { width:50%; }
-	#EmployerTbl tr td:nth-child(1) { width:50%; }
-	#EmployerTbl tr td:nth-child(2) { width:50%; }
-	#PrivateTbl tr td:nth-child(1) { width:50%; }
-	#PrivateTbl tr td:nth-child(2) { width:50%; }
+	#FilingInfoTbl tr td:nth-child(1) { width:60%; }
+	#FilingInfoTbl tr td:nth-child(2) { width:40%; }
+	#AGIInfoTbl tr td:nth-child(1) { width:60%; }
+	#AGIInfoTbl tr td:nth-child(2) { width:40%; }
+	#FPL150Tbl tr td:nth-child(1) { width:60%; }
+	#FPL150Tbl tr td:nth-child(2) { width:40%; }
+	#FPL300Tbl tr td:nth-child(1) { width:60%; }
+	#FPL300Tbl tr td:nth-child(2) { width:40%; }
+	#EmployerTbl tr td:nth-child(1) { width:60%; }
+	#EmployerTbl tr td:nth-child(2) { width:40%; }
+	#PrivateTbl tr td:nth-child(1) { width:60%; }
+	#PrivateTbl tr td:nth-child(2) { width:40%; }
 
 
 	#FPL8962 { font-weight: bold; }
@@ -150,6 +150,15 @@ var TYindex = 0;
 		  FamilySize.disabled = false;
 			break;
 		case "MFJ":
+			if(FamilySize.value == "1"){
+					FamilySize.value = "2";
+			}
+			SPAGI.disabled = true;
+			SPAGI.value = "";
+			SPAGI.innerHTML = "";
+			FamilySize.disabled = false;
+			TotAGI.value = TPAGI.value;
+			break;
 		case "HOH":
 			SPAGI.disabled = true;
 			SPAGI.value = "";
@@ -170,7 +179,7 @@ var TYindex = 0;
 		FPLAddr = _FPLAddr[TaxYear.value];
 		CheckFPL150();
 		CheckFPL300();
-		EmployeeOffer();
+		EmployerOffer();
 		PrivateOffer();
 }
 
@@ -225,33 +234,171 @@ var TYindex = 0;
 		}
 	//	message = "FPL=" + FPL150 + "TotAGI.value=" + TotAGI.value + "In CheckFPL150\n\n"
 	//  alert (message);
+	CheckFPL300();
+	EmployerOffer();
+	PrivateOffer();
 	}
 
 	//----------------------------------------------
 	// This function tests for 300% of FedPovLine and not eligible for subsized/MassHealth
-	//
+	// need to add in check for 9.56% for individual insurance
 	function CheckFPL300() {
 		TotAGI.value = +TPAGI.value + +SPAGI.value;
 		FPL300 = (FPL + (FamilySize.value * FPLAddr)) * 3;
-		if (TotAGI.value > FPL300 || CitizenLegalResident.value == "No" || GovInsurance.value == "Yes") {
-			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized - Continue to next test.";
+		if (TotAGI.value > FPL300) {
+      CitizenLegalResident.disabled = true;
+			GovInsurance.disabled = true;
+      EmployerIndividualPremium.disabled = true;
+			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance - Continue to next test.";
 		}
-		else if (CitizenLegalResident.value == "" ||  GovInsurance.value == "") {
+		else {
+		CitizenLegalResident.disabled = false;
+		GovInsurance.disabled = false;
+		EmployerIndividualPremium.disabled = false;
+
+		if(EmployerIndividualPremium.value > 0) {
+			Premium = EmployerIndividualPremium.value * 12;
+		}
+	  else {
+			Premium = 0;
+		}
+		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" ||
+		   (Premium >= (TotAGI.value * _IndividualPercentage[TaxYear.value]))) {
+			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance - Continue to next test.";
+		}
+		else if (CitizenLegalResident.value == "" ||  GovInsurance.value == "" ) {
 			FPL300Message.innerHTML = "";
 		}
 		else {
 			FPL300Message.innerHTML =  "Eligible for MassHealth/Subsidized Coverage. Penalty Applies.";
 			Penalty = true;
 		}
-	//	message = "FPL=" + FPL150 + "TotAGI.value=" + TotAGI.value + "In CheckFPL150\n\n"
-	//  alert (message);
 	}
+}
+
+function FindPercentage(famsize, agivalue) {
+
+	var Percentage;
+	var ATab = [];
+
+
+}
+
+
 	function EmployerOffer() {
+		var Premium, Percentage;
+		var ATab = [];
 
 
+// Employer insurance
+
+  if(EmployerInsuranceOffer.value == "Yes" && EmployerPremium.value != ""){
+		Premium = EmployerPremium.value * 12;
+		switch (FamilySize.value) {
+			case "1":
+				ATab = _AffordTab1[TaxYear.value];
+				break;
+			case "2":
+				ATab = _AffordTab2[TaxYear.value];
+				break;
+			default:
+			 ATab = _AffordTab3Plus[TaxYear.value];
+			 break;
+		}
+
+		for(i = 0; i < ATab.length; ++i) {
+			  Percentage = ATab[i].percentage;
+				if(ATab[i].incomelimit >= TotAGI.value) {
+//					alert("incomelimit" +_AffordTab1[TaxYear.value][i].incomelimit);
+//					alert("Percentage is " +Percentage);
+						break;
+					}
+				}
+				if(Premium <= (TotAGI.value * Percentage)) {
+					EmployerMessage.innerHTML =  "Employer Insurance Affordable. Penalty Applies.";
+					Penalty = true;
+				}
+				else {
+					EmployerMessage.innerHTML =  "Employer Insurance Unaffordable - Continue to next test.";
+				}
 
 	}
+	// No employer offer of insurance
+	else if (EmployerInsuranceOffer.value == "No"){
+			EmployerMessage.innerHTML =  "Employer Insurance Unaffordable - Continue to next test."
+	}
+	// Unknown yet if offer of employer insurance
+	else {
+		EmployerMessage.innerHTML = "";
 
+	}
+}
+
+function PrivateOffer() {
+	var Plancost;
+	var Percentage;
+	var PTab = [];
+
+	if(County.value != "" && TPAge.value != "" && PrivatePlan.value != "") {
+		switch (_Region[County.value]) {
+			case "1":
+				PTab = _PremiumRegion1[TaxYear.value];
+				break;
+			case "2":
+				PTab = _PremiumRegion2[TaxYear.value];
+				break;
+			default:
+			 PTab = _PremiumRegion3[TaxYear.value];
+			 break;
+		}
+
+		for(i = 0; i < PTab.length; ++i){
+			switch(PrivatePlan.value){
+				case "IndividualPlan":
+					Plancost = PTab[i].individual;
+					break;
+				case "MarriedCouplePlan":
+					Plancost = PTab[i].couple;
+					break;
+				case "FamilyPlan":
+					Plancost = PTab[i].family;
+					break;
+			}
+			if(PTab[i].age >= TPAge.value){
+				break;
+			}
+		}
+		switch (FamilySize.value) {
+			case "1":
+				ATab = _AffordTab1[TaxYear.value];
+				break;
+			case "2":
+				ATab = _AffordTab2[TaxYear.value];
+				break;
+			default:
+			 ATab = _AffordTab3Plus[TaxYear.value];
+			 break;
+		}
+		for(i = 0; i < ATab.length; ++i) {
+			  Percentage = ATab[i].percentage;
+				if(ATab[i].incomelimit >= TotAGI.value) {
+						break;
+					}
+				}
+				if((Plancost * 12) <= (TotAGI.value * Percentage)) {
+					PrivateMessage.innerHTML =  "Private Insurance Affordable. Penalty Applies.";
+					Penalty = true;
+				}
+				else {
+					PrivateMessage.innerHTML =  "Private Insurance Unaffordable - Continue to next test.";
+				}
+
+		}
+
+	else {
+		PrivateMessage.innerHTML = "";
+	}
+}
 
 </script>
 
@@ -325,7 +472,7 @@ var TYindex = 0;
 				<td><input id="SPAGI" size="7"  type="number" onchange="CheckFPL150()" title="Enter only if MFS and Spouse lived in the household"></td>
 		</tr>
 		<tr>
-			<td>Total AGI</td>
+			<td>Total AGI:</td>
 			<td><input id="TotAGI" size="7" disabled title="Total AGI"></td>
 	</tr>
 		<tbody></table>
@@ -342,7 +489,7 @@ var TYindex = 0;
 		<tbody></table>
 	</div>
 <br>
-<div id="EmployerOffer">
+<div id="EmployerOfferInfo">
 	<h1>Employer Insurance</h1>
 	<table id="EmployerTbl">
 		<tbody><tr>
@@ -354,6 +501,7 @@ var TYindex = 0;
 						<option value="Yes">Yes</option>
 						</select></td>
 		</tr>
+		<tr>
 			<td>Lowest Monthly Premium:</td>
 			<td><input id="EmployerPremium" size="7" type="number" onchange="EmployerOffer()" title="Enter the lowest monthly premium cost of health insurance that would cover family during uninsured period."></td>
 		</tr>
@@ -380,16 +528,21 @@ unless either
           <option value="">-</option>
 					<option value="Yes">Yes</option>
 					<option value="No">No</option>
-					</select></td></tr>
-
-		<tr>
-		<td>Applied and denied MassHealth/Subsidized Insurance?</td>
+					</select></td>
+				</tr>
+  	<tr>
+		<td>Denied MassHealth/Subsidized Insurance?</td>
 		<td style="text-align:top">
-			<select id="GovInsurance" onchange="CheckFPL300()" title="Was the Taypayer denied MassHealth or subsidized insurance from the Mass Health Connector?">
+			<select id="GovInsurance" onchange="CheckFPL300()"
+					title="Did the Taypayer apply and was denied MassHealth or subsidized insurance from the Mass Health Connector?">
         <option value="">-</option>
 				<option value="No">No</option>
 				<option value="Yes">Yes</option>
 				</select></td></tr>
+				<tr>
+					<td>Lowest Monthly Individual Premium:</td>
+					<td><input id="EmployerIndividualPremium" size="7" type="number" onchange="CheckFPL300()"
+						     title="Enter the lowest monthly premium cost of individual health insurance."></td></tr>
 	<tr>
 	<td><p id="FPL300Message"></td>
 	</tr>
@@ -428,11 +581,14 @@ unless either
 		<tr>
 		<td>Insurance Plan:</td>
 		<td style="text-align:top">
-			<select id="County" onchange="PrivateOffer()" title="Select the taxpayer&#39;s county of residence.">
+			<select id="PrivatePlan" onchange="PrivateOffer()" title="Select required insurance plan.">
 				<option value="IndividualPlan">Individual</option>
 				<option value="MarriedCouplePlan">Married Couple (No dependents)</option>
 				<option value="FamilyPlan">Family Plan</option>
 				</select></td>
+	</tr>
+	<tr>
+	<td><p id="PrivateMessage"></td>
 	</tr>
 		<tbody></table>
 	</div>
