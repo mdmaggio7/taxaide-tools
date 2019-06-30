@@ -37,9 +37,10 @@
 	.link { text-decoration:underline; color:purple; cursor:pointer; }
 	.aff_td { text-align:center; }
 	.aff_exm { width: 6em; text-align:left; }
+
 	#TPName { width:20em; text-align:left; }
 	#FamilySize { width:3em; }
-	#APW { display: none; background-color: white; }
+
 	#Instructions { width: 16em;
 		text-align:center;
 		border:0;
@@ -54,6 +55,7 @@
 		z-index:2;
 		position:absolute; top:0em; right:2em; }
 	#ClearAndPrint button { margin: 2px; }
+
 	#FilingInfoTbl tr td:nth-child(1) { width:60%; }
 	#FilingInfoTbl tr td:nth-child(2) { width:40%; }
 	#AGIInfoTbl tr td:nth-child(1) { width:60%; }
@@ -68,47 +70,13 @@
 	#PrivateTbl tr td:nth-child(2) { width:40%; }
 
 
-	#FPL8962 { font-weight: bold; }
 	#TaxYear { width: 6em; }
-	#IncomeTbl tr:first-child,
-	#IncomeTbl tr:nth-child(12) {
-		text-decoration: underline;
-	}
-	#IncomeTbl tr td input { width:6em; }
-	#IncomeTbl tr td:nth-child(1) { width:20%; }
-	#IncomeTbl tr td:nth-child(2) { width:20%; }
-	#HHDependent { border: 1px solid black; text-align:center; }
-	#GrossInputMessage { display: block; float: left; padding-left: 1em; font-weight: bold;}
+
   #FPL150Message { display: block; float: left; padding-left: 1em; color:red;font-weight: bold; color:blue}
+	#EmployerMessage { display: block; float: left; padding-left: 1em;font-weight: bold;color:blue;}
 	#FPL300Message { display: block; float: left; padding-left: 1em;font-weight: bold; color:blue;}
-  #EmployerMessage { display: block; float: left; padding-left: 1em;font-weight: bold;color:blue;}
   #PrivateMessage { display: block; float: left; padding-left: 1em;font-weight: bold; color:blue;}
-	#TwoFamilyQuestions { display: none}
-	#AffordTbl1 tr td:nth-child(1) { width:35%; }
-	#AffordTbl1 tr td:nth-child(2) { width:10%; }
-	#AffordTbl1 tr td:nth-child(3) { width:40%; text-align:right; }
-	#AffordTbl1 tr td:nth-child(4) { width:15%; text-align:left; }
-	#AffordTbl2 tr td { width:10%; }
-	#AffordTbl2 tr td:first-child { width:30%; }
-	#MCATbl tr td:nth-child(1) { width:35%; }
-	#MCATbl tr td:nth-child(2) { width:5%; }
-	#MCATbl tr td:nth-child(3) { min-width:2em; }
-	#MCATbl tr td:nth-child(4) { width:58%; font-style: italic; }
-	#BronzeList, #SilverList { font-weight: bold; }
-	#BronzeList2, #SilverList2 { font-weight: bold; }
-	//#SOTbl { width: 100%; }
-	#SOTbl tr td:nth-child(1) { width: 1em; }
-	#SOTbl tr td:nth-child(2) { width: 25em; font-style: italic; }
-	#MCA02, #MCA03, #MCA04, #MCA05, #MCA06,
-	#MCA07, #MCA08, #MCA09, #MCA11, #MCA12 {
-		text-align: right;
-	}
-	#coststatenew {
-		display: none;
-		width: 25em;
-		text-align: left;
-	}
-	#coststateok { display: none; }
+
 	@media print {
 		.doPrint { display:inline; }
 		.noPrint { display:none; }
@@ -136,10 +104,10 @@ var VERSION = "(Version 0.6, 6/30/2019)";
 //var VERSION = "(Version 0.1, 6/19/2019)";
 // Initial version from Jeff Bogart's ACA calculator with permission and thanks
 
-var FedPovLine = 0;
+
 var FPL;
 var FPLAddr;
-var TYindex = 0;
+
 // 0 = unknown, 1 = penalty, 2 = no penalty
 var Penalty_Employer;
 var Penalty_FPL300;
@@ -239,7 +207,8 @@ function CheckPenalty() {
 	}
 
 	 else if(TotAGI.value <= FPL150) {
-		FPL150Message.innerHTML =  "AGI less than or equal to 150% of FPL - No Penalty Applies. STOP";
+		FPL150Message.innerHTML =  "AGI less than or equal to 150% of FPL - No Penalty Applies.";
+		FPL150Message.style.color = "blue";
 		CitizenLegalResident.disabled = true;
 		GovInsurance.disabled = true;
 		EmployerInsuranceOffer.disabled = true;
@@ -259,6 +228,7 @@ function CheckPenalty() {
 	}
 	else if(Penalty_Employer == NOPENALTY && Penalty_FPL300 == NOPENALTY && Penalty_Private == NOPENALTY){
 		FPL150Message.innerHTML =  "Insurance not affordable. Enter NO to \"Affordability Questions\" to exempt penalty.";
+		FPL150Message.style.color = "blue";
 	}
 	else if(TotAGI.value > FPL300){
 		FPL150Message.innerHTML =  "AGI greater than 300% of FPL - Continue to affordability tests.";
@@ -310,6 +280,7 @@ function CheckPenalty() {
       EmployerIndividualPremium.disabled = true;
 			EmployerIndividualOffer.disabled = true;
 			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance.";
+			FPL300Message.style.color = "blue";
 			Penalty_FPL300 = NOPENALTY;
 		}
 		else {
@@ -326,6 +297,7 @@ function CheckPenalty() {
 		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" || EmployerIndividualOffer.value == "No" ||
 		   (EmployerIndividualOffer.value == "Yes" && (Premium >= (TotAGI.value * _IndividualPercentage[TaxYear.value])))) {
 			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance.";
+			FPL300Message.style.color = "blue";
 		  Penalty_FPL300 = NOPENALTY;
 		}
 		else if (CitizenLegalResident.value == "" ||  GovInsurance.value == "" || EmployerIndividualOffer.value == "" ||
@@ -342,13 +314,6 @@ function CheckPenalty() {
 		CheckPenalty();
 }
 
-function FindPercentage(famsize, agivalue) {
-
-	var Percentage;
-	var ATab = [];
-
-
-}
 
 
 	function EmployerOffer() {
@@ -390,14 +355,16 @@ function FindPercentage(famsize, agivalue) {
 					Penalty_Employer = PENALTY;
 				}
 				else {
-					EmployerMessage.innerHTML =  "Employer Insurance Unaffordable.";
+					EmployerMessage.innerHTML =  "Employer Insurance Not Affordable.";
+					EmployerMessage.style.color = "blue";
 					Penalty_Employer = NOPENALTY;
 				}
 
 	}
 	// No employer offer of insurance
 	else if (EmployerInsuranceOffer.value == "No"){
-			EmployerMessage.innerHTML =  "Employer Insurance Unaffordable."
+			EmployerMessage.innerHTML =  "Employer Insurance Not Affordable."
+			EmployerMessage.style.color = "blue";
 			EmployerPremium.disabled = true;
 			EmployerPremium.value = "";
 			Penalty_Employer = NOPENALTY;
@@ -468,11 +435,12 @@ function PrivateOffer() {
 				}
 				if((Plancost * 12) <= (TotAGI.value * Percentage)) {
 					PrivateMessage.innerHTML =  "Private Insurance Affordable. Penalty Applies.";
-					PrivateMessage.color.style = "red";
+					PrivateMessage.style.color = "red";
 					Penalty_Private = PENALTY;
 				}
 				else {
-					PrivateMessage.innerHTML =  "Private Insurance Unaffordable.";
+					PrivateMessage.innerHTML =  "Private Insurance Not Affordable.";
+					PrivateMessage.style.color = "blue";
 					Penalty_Private = NOPENALTY;
 				}
 
