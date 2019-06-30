@@ -78,11 +78,11 @@
 	#IncomeTbl tr td:nth-child(1) { width:20%; }
 	#IncomeTbl tr td:nth-child(2) { width:20%; }
 	#HHDependent { border: 1px solid black; text-align:center; }
-	#GrossInputMessage { display: block; float: left; padding-left: 1em; }
-  #FPL150Message { display: block; float: left; padding-left: 1em; color:red;}
-	#FPL300Message { display: block; float: left; padding-left: 1em;}
-  #EmployerMessage { display: block; float: left; padding-left: 1em;}
-  #PrivateMessage { display: block; float: left; padding-left: 1em; }
+	#GrossInputMessage { display: block; float: left; padding-left: 1em; font-weight: bold;}
+  #FPL150Message { display: block; float: left; padding-left: 1em; color:red;font-weight: bold; color:blue}
+	#FPL300Message { display: block; float: left; padding-left: 1em;font-weight: bold; color:blue;}
+  #EmployerMessage { display: block; float: left; padding-left: 1em;font-weight: bold;color:blue;}
+  #PrivateMessage { display: block; float: left; padding-left: 1em;font-weight: bold; color:blue;}
 	#TwoFamilyQuestions { display: none}
 	#AffordTbl1 tr td:nth-child(1) { width:35%; }
 	#AffordTbl1 tr td:nth-child(2) { width:10%; }
@@ -126,10 +126,14 @@
 <script src="./MA_2019.js"></script>
 <script type="text/javascript">
 
-var VERSION;
 // --------------------------------------------------------------------------------
 // CHANGE HISTORY:
-var VERSION = "(Version 0.5, 6/29/2019)";
+
+var VERSION = "(Version 0.6, 6/30/2019)";
+//added color coding for response - red: penalty, green: continue entering data, blue: no penalty
+//var VERSION = "(Version 0.5, 6/29/2019)";
+//functionally complete, needs more testing
+//var VERSION = "(Version 0.1, 6/19/2019)";
 // Initial version from Jeff Bogart's ACA calculator with permission and thanks
 
 var FedPovLine = 0;
@@ -214,6 +218,8 @@ const NOPENALTY = 2;
 		FamilySize.value = 1;
 		FamilySize.disabled = true;
 		FilingStatus.value = "SNG";
+		CitizenLegalResident.value = "Yes";
+		GovInsurance.value = "No";
 	//			alert("middle of initialize");
 		SPAGI.disabled = true;
 		TPAGI.value = SPAGI.value = "";
@@ -249,12 +255,18 @@ function CheckPenalty() {
 	}
 	else if(Penalty_Employer == PENALTY || Penalty_FPL300 == PENALTY || Penalty_Private == PENALTY){
 			FPL150Message.innerHTML =  "Insurance is affordable - Penalty will apply.";
+			FPL150Message.style.color = "red";
 	}
 	else if(Penalty_Employer == NOPENALTY && Penalty_FPL300 == NOPENALTY && Penalty_Private == NOPENALTY){
 		FPL150Message.innerHTML =  "Insurance not affordable. Enter NO to \"Affordability Questions\" to exempt penalty.";
 	}
+	else if(TotAGI.value > FPL300){
+		FPL150Message.innerHTML =  "AGI greater than 300% of FPL - Continue to affordability tests.";
+			FPL150Message.style.color = "green";
+	}
 	else {
 		FPL150Message.innerHTML =  "AGI greater than 150% of FPL - Continue to affordability tests.";
+			FPL150Message.style.color = "green";
 	}
 
 }
@@ -297,7 +309,7 @@ function CheckPenalty() {
 			GovInsurance.disabled = true;
       EmployerIndividualPremium.disabled = true;
 			EmployerIndividualOffer.disabled = true;
-			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance - Continue to next test.";
+			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance.";
 			Penalty_FPL300 = NOPENALTY;
 		}
 		else {
@@ -313,7 +325,7 @@ function CheckPenalty() {
 		}
 		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" || EmployerIndividualOffer.value == "No" ||
 		   (EmployerIndividualOffer.value == "Yes" && (Premium >= (TotAGI.value * _IndividualPercentage[TaxYear.value])))) {
-			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance - Continue to next test.";
+			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance.";
 		  Penalty_FPL300 = NOPENALTY;
 		}
 		else if (CitizenLegalResident.value == "" ||  GovInsurance.value == "" || EmployerIndividualOffer.value == "" ||
@@ -323,6 +335,7 @@ function CheckPenalty() {
 		}
 		else {
 			FPL300Message.innerHTML =  "Eligible for MassHealth/Subsidized Coverage. Penalty Applies.";
+			FPL300Message.style.color = "red";
 			Penalty_FPL300 = PENALTY;
 		}
 	}
@@ -373,17 +386,18 @@ function FindPercentage(famsize, agivalue) {
 				}
 				if(Premium <= (TotAGI.value * Percentage)) {
 					EmployerMessage.innerHTML =  "Employer Insurance Affordable. Penalty Applies.";
+					EmployerMessage.style.color = "red";
 					Penalty_Employer = PENALTY;
 				}
 				else {
-					EmployerMessage.innerHTML =  "Employer Insurance Unaffordable - Continue to next test.";
+					EmployerMessage.innerHTML =  "Employer Insurance Unaffordable.";
 					Penalty_Employer = NOPENALTY;
 				}
 
 	}
 	// No employer offer of insurance
 	else if (EmployerInsuranceOffer.value == "No"){
-			EmployerMessage.innerHTML =  "Employer Insurance Unaffordable - Continue to next test."
+			EmployerMessage.innerHTML =  "Employer Insurance Unaffordable."
 			EmployerPremium.disabled = true;
 			EmployerPremium.value = "";
 			Penalty_Employer = NOPENALTY;
@@ -454,10 +468,11 @@ function PrivateOffer() {
 				}
 				if((Plancost * 12) <= (TotAGI.value * Percentage)) {
 					PrivateMessage.innerHTML =  "Private Insurance Affordable. Penalty Applies.";
+					PrivateMessage.color.style = "red";
 					Penalty_Private = PENALTY;
 				}
 				else {
-					PrivateMessage.innerHTML =  "Private Insurance Unaffordable - Continue to next test.";
+					PrivateMessage.innerHTML =  "Private Insurance Unaffordable.";
 					Penalty_Private = NOPENALTY;
 				}
 
@@ -589,13 +604,12 @@ unless either
 3. Previously had been denied MassHealth or subsized coverage from Mass Health Connector -->
 
 <div id="FPL300Info">
-	<h1>Eligibility for Government-Subsidized Health Insurance</h1>
+	<h1>Eligibility for Government-Subsidized Health Insurance: AGI 300% FPL</h1>
 	<table id="FPL300Tbl">
 		<tbody><tr>
 			<td>Citizen or Legal Resident?</td>
 			<td style="text-align:top">
 				<select id="CitizenLegalResident" onchange="CheckFPL300()" title="Was the Taxpayer a citizen or legal resident?">
-          <option value="">-</option>
 					<option value="Yes">Yes</option>
 					<option value="No">No</option>
 					</select></td>
@@ -605,7 +619,6 @@ unless either
 		<td style="text-align:top">
 			<select id="GovInsurance" onchange="CheckFPL300()"
 					title="Did the Taypayer apply and was denied MassHealth or subsidized insurance from the Mass Health Connector?">
-        <option value="">-</option>
 				<option value="No">No</option>
 				<option value="Yes">Yes</option>
 				</select></td></tr>
