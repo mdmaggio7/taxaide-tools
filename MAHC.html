@@ -129,7 +129,7 @@
 var VERSION;
 // --------------------------------------------------------------------------------
 // CHANGE HISTORY:
-var VERSION = "(Version 0.1, 6/19/2019)";
+var VERSION = "(Version 0.5, 6/29/2019)";
 // Initial version from Jeff Bogart's ACA calculator with permission and thanks
 
 var FedPovLine = 0;
@@ -169,6 +169,9 @@ const NOPENALTY = 2;
 			SPAGI.value = "";
 			SPAGI.innerHTML = "";
 			FamilySize.disabled = false;
+			if(FamilySize.value == "1"){
+					FamilySize.value = "";
+			}
 			TotAGI.value = TPAGI.value;
 			break;
 		case "SNG":
@@ -484,7 +487,7 @@ function PrivateOffer() {
 </center>
 
 <div id="Instructions" class="noPrint">
-	<a href="http://cotaxaide.org/tools/Instructions/ACA%20Instructions.pdf" target="_blank"><button>Tutorial</button></a>
+	<a href="./MAHC.pdf" target="_blank"><button>Instructions</button></a>
 </div>
 
 <div id="ClearAndPrint" class="noPrint">
