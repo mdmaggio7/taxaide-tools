@@ -26,6 +26,17 @@
 		background-color: lightgrey;
 		font-weight: bold;
 	}
+	input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+	 input[type="number"] {
+		 appearance: textfield;
+	}
 	.center { text-align: center; }
 	.tblHeader { font-size:110%; font-weight:bold; text-decoration:underline; }
 	.title { font-size:125%; font-weight:bold; }
@@ -60,8 +71,7 @@
 	#FilingInfoTbl tr td:nth-child(2) { width:40%; }
 	#AGIInfoTbl tr td:nth-child(1) { width:60%; }
 	#AGIInfoTbl tr td:nth-child(2) { width:40%; }
-	#FPL150Tbl tr td:nth-child(1) { width:60%; }
-	#FPL150Tbl tr td:nth-child(2) { width:40%; }
+	#FPL150Tbl tr td:nth-child(1) { font-size:125%; width:100%; }
 	#FPL300Tbl tr td:nth-child(1) { width:60%; }
 	#FPL300Tbl tr td:nth-child(2) { width:40%; }
 	#EmployerTbl tr td:nth-child(1) { width:60%; }
@@ -72,7 +82,7 @@
 
 	#TaxYear { width: 6em; }
 
-  #FPL150Message { display: block; float: left; padding-left: 1em; color:red;font-weight: bold; color:blue}
+  #FPL150Message { display: block; float: center; padding-left: 1em; color:red;font-weight: bold; color:blue}
 	#EmployerMessage { display: block; float: left; padding-left: 1em;font-weight: bold;color:blue;}
 	#FPL300Message { display: block; float: left; padding-left: 1em;font-weight: bold; color:blue;}
   #PrivateMessage { display: block; float: left; padding-left: 1em;font-weight: bold; color:blue;}
@@ -227,7 +237,7 @@ function CheckPenalty() {
 			FPL150Message.style.color = "red";
 	}
 	else if(Penalty_Employer == NOPENALTY && Penalty_FPL300 == NOPENALTY && Penalty_Private == NOPENALTY){
-		FPL150Message.innerHTML =  "Insurance not affordable. Enter NO to \"Affordability Questions\" to exempt penalty.";
+		FPL150Message.innerHTML =  "Insurance not affordable. Enter NO to Affordability Questions.";
 		FPL150Message.style.color = "blue";
 	}
 	else if(TotAGI.value > FPL300){
@@ -534,8 +544,8 @@ function PrivateOffer() {
 <!-- ****************************************** < 150% FPL INFORMATION TABLE ****************************************** -->
 
 <div id="FPL150Info">
-	<h1>AGI At or Below 150% of Federal Poverty Level</h1>
-	<table id="FPL150Tbl">
+<h1></h1>
+<table id="FPL150Tbl">
 		<tbody><tr>
 <td><p id="FPL150Message"></td>
 		</tr>
