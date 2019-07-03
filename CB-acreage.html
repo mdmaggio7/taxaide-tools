@@ -58,13 +58,7 @@
 	.comment { font-style:italic; }
 	.stopflag { background-color:red; color:yellow; }
 	.continueflag { background-color:lightgreen; }
-	.noteflag { background-color:yellow; }
-	.link { text-decoration:underline; color:purple; cursor:pointer; }
-	.aff_td { text-align:center; }
-	.aff_exm { width: 6em; text-align:left; }
-  #TPName { width:20em; text-align:left; }
 	#Name {text-align:left; }
-	#APW { display: none; background-color: white; }
 	#Instructions { width: 16em;
 		text-align:center;
 		border:0;
@@ -84,45 +78,8 @@
 	#AcreTbl tr td:nth-child(2) { width:50%; }
 	#CBTbl tr td:nth-child(1) { width:50%; }
 	#CBTbl tr td:nth-child(2) { width:50%; }
-
-	#FPL8962 { font-weight: bold; }
 	#TaxYear { width: 6em; }
-	#IncomeTbl tr:first-child,
-	#IncomeTbl tr:nth-child(12) {
-		text-decoration: underline;
-	}
-	#IncomeTbl tr td input { width:6em; }
-	#IncomeTbl tr td:nth-child(1) { width:20%; }
-	#IncomeTbl tr td:nth-child(2) { width:20%; }
-	#HHDependent { border: 1px solid black; text-align:center; }
-	#GrossInputMessage { display: block; float: left; padding-left: 1em; }
-  #FPL150Message { display: block; float: left; padding-left: 1em; }
-	#TwoFamilyQuestions { display: none}
-	#AffordTbl1 tr td:nth-child(1) { width:35%; }
-	#AffordTbl1 tr td:nth-child(2) { width:10%; }
-	#AffordTbl1 tr td:nth-child(3) { width:40%; text-align:right; }
-	#AffordTbl1 tr td:nth-child(4) { width:15%; text-align:left; }
-	#AffordTbl2 tr td { width:10%; }
-	#AffordTbl2 tr td:first-child { width:30%; }
-	#MCATbl tr td:nth-child(1) { width:35%; }
-	#MCATbl tr td:nth-child(2) { width:5%; }
-	#MCATbl tr td:nth-child(3) { min-width:2em; }
-	#MCATbl tr td:nth-child(4) { width:58%; font-style: italic; }
-	#BronzeList, #SilverList { font-weight: bold; }
-	#BronzeList2, #SilverList2 { font-weight: bold; }
-	//#SOTbl { width: 100%; }
-	#SOTbl tr td:nth-child(1) { width: 1em; }
-	#SOTbl tr td:nth-child(2) { width: 25em; font-style: italic; }
-	#MCA02, #MCA03, #MCA04, #MCA05, #MCA06,
-	#MCA07, #MCA08, #MCA09, #MCA11, #MCA12 {
-		text-align: right;
-	}
-	#coststatenew {
-		display: none;
-		width: 25em;
-		text-align: left;
-	}
-	#coststateok { display: none; }
+
 	@media print {
 		.doPrint { display:inline; }
 		.noPrint { display:none; }
@@ -137,30 +94,26 @@
 <script type="text/javascript">
 // --------------------------------------------------------------------------------
 // CHANGE HISTORY:
-var VERSION = "(Version 1.0, 6/21/2019)";
+var VERSION = "(Version 1.01, 7/2/2019)";
+//Code cleanup
+//var VERSION = "(Version 1.0, 6/21/2019)";
 //First production version
 //var VERSION = "(Version 0.5, 6/20/2019)";
 //Initial version for testing
 //var VERSION = "(Version 0.1, 6/19/2019)";
-Land.value = 0;
-Building.value = 0;
-TotAssess.value = 0;
-RETaxes.value = 0;
-Acreage.value = 1;
-CBAssess.value = 0;
-CBRETaxes.value = 0;
+
 var Acres = 0;
 
 function Initialize() {
 
-//Land.value = 0;
-//Building.value = 0;
-//TotAssess.value = 0;
-//RETaxes.value = 0;
-//Acreage.value = 1;
-//CBAssess.value = 0;
-//CBRETaxes.value = 0;
-//alert("in initialize");
+  Land.value = "";
+  Building.value = "";
+  TotAssess.value = "";
+  RETaxes.value = "";
+  Acreage.value = "";
+  CBAssess.value = "";
+  CBRETaxes.value = "";
+  Acres = 0;
 
 }
 
@@ -168,8 +121,10 @@ function UpdateVal() {
 
 //	alert("in updateval");
 
-	TotAssess.value = +Land.value + +Building.value;
-	UpdateCB();
+	if(Land.value || Building.value) {
+    TotAssess.value = +Land.value + +Building.value;
+  }
+  UpdateCB();
 }
 
 function UpdateCB() {
@@ -184,17 +139,17 @@ function UpdateCB() {
    if(Acreage.value < 1) {
       Acres = 1;
     }
-		if(Acreage.value) {
+		if(Acreage.value && Land.value && Building.value) {
 			CBAssess.value = Math.round((Land.value / Acres)) + +Building.value;
 		}
 		else {
 			CBAssess.value = "";
 		}
-    if(TotAssess.value > 0 && RETaxes.value) {
+    if(TotAssess.value > 0 && RETaxes.value && CBAssess.value) {
       CBRETaxes.value = Math.round((CBAssess.value / TotAssess.value) * RETaxes.value);
     }
     else {
-      CBRETaxes.value = RETaxes.value;
+      CBRETaxes.value = "";
     }
 
 }
@@ -239,7 +194,7 @@ function UpdateCB() {
   </tr>
   <tr>
   <td>Total Acreage:
-		<input id=AcreButton type="radio" name="acre_or_sqft" value="Acre"checked onclick="UpdateCB()">     Acres
+		<input id=AcreButton type="radio" name="acre_or_sqft" value="Acre" checked onclick="UpdateCB()">     Acres
 		<input id=SqFtButton type="radio" name="acre_or_sqft" value="SqFt" onclick="UpdateCB()">Square Feet</td>
   <td><input id="Acreage" title="Enter the acreage/square footage."  size="8" type = "number" onchange="UpdateCB()">
 	</td>
@@ -270,6 +225,9 @@ function UpdateCB() {
 		</tbody></table>
 	</div> <!-- CBInfo-->
 	<div class="noPrint">
+    Thanks to Jeff Bogart for the initial version of this calculator.
+<br>
+
 		  Please send corrections and suggestions to <a href="mailto:mdmaggio7@gmail.com">mdmaggio7@gmail.com</a><br>
 		  <span id="printbutton2" style="float: right;"><button onclick="window.print()">Print a taxpayer copy</button></span>
 	</div>
