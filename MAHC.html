@@ -304,7 +304,7 @@ function CheckPenalty() {
 	  else {
 			Premium = 0;
 		}
-		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" || EmployerIndividualOffer.value == "No" ||
+		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" || 
 		   (EmployerIndividualOffer.value == "Yes" && (Premium >= (TotAGI.value * _IndividualPercentage[TaxYear.value])))) {
 			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance.";
 			FPL300Message.style.color = "blue";
