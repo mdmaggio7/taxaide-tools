@@ -106,8 +106,9 @@
 
 // --------------------------------------------------------------------------------
 // CHANGE HISTORY:
-
-var VERSION = "(Version 0.6, 6/30/2019)";
+var VERSION = "(Version 0.7, 7/24/2019)";
+//Minor bug fixes for 300 FPL and age of TP
+//var VERSION = "(Version 0.6, 6/30/2019)";
 //added color coding for response - red: penalty, green: continue entering data, blue: no penalty
 //var VERSION = "(Version 0.5, 6/29/2019)";
 //functionally complete, needs more testing
@@ -645,7 +646,7 @@ unless either
 		<tr>
 		<td>Age (older spouse if MFJ):</td>
 		<td>
-			<input id="TPAge" onchange="PrivateOffer()" title="Enter Age as of last day of previous year (if MFJ or MFS and SP lives in household, age of older spouse)">
+			<input id="TPAge" onchange="PrivateOffer()" title="Enter Age as of January 1st of the tax year (if MFJ or MFS and SP lives in household, age of older spouse)">
 		</td>
 	</tr>
 		<tr>
