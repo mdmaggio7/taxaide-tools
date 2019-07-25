@@ -237,7 +237,7 @@ function CheckPenalty() {
 			FPL150Message.style.color = "red";
 	}
 	else if(Penalty_Employer == NOPENALTY && Penalty_FPL300 == NOPENALTY && Penalty_Private == NOPENALTY){
-		FPL150Message.innerHTML =  "Insurance not affordable. Enter NO to Affordability Questions.";
+		FPL150Message.innerHTML =  "Insurance not affordable - No penalty. Enter NO to Affordability Questions.";
 		FPL150Message.style.color = "blue";
 	}
 	else if(TotAGI.value > FPL300){
@@ -304,7 +304,7 @@ function CheckPenalty() {
 	  else {
 			Premium = 0;
 		}
-		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" || 
+		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" ||
 		   (EmployerIndividualOffer.value == "Yes" && (Premium >= (TotAGI.value * _IndividualPercentage[TaxYear.value])))) {
 			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance.";
 			FPL300Message.style.color = "blue";
