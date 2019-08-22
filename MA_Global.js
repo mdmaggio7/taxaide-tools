@@ -91,22 +91,3 @@ function _Read_Cookie(
 	}
 	return("");
 }
-
-
-// Regions
-var Region = [];
-
-_Region["Berkshire"] = "1";
-_Region["Franklin"] = "1";
-_Region["Hampshire"] = "1";
-_Region["Bristol"] = "2";
-_Region["Barnstable"] = "2";
-_Region["Hampden"] = "2";
-_Region["Middlesex"] = "2";
-_Region["Norfolk"] = "2";
-_Region["Plymouth"] = "2";
-_Region["Suffolk"] = "2";
-_Region["Worcester"] = "2";
-_Region["Essex"] = "2";
-_Region["Dukes"] = "3";
-_Region["Nantucket"] = "3";

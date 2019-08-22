@@ -106,7 +106,9 @@
 
 // --------------------------------------------------------------------------------
 // CHANGE HISTORY:
-var VERSION = "(Version 0.7, 7/24/2019)";
+var VERSION = "(Version 0.8, 8/22/2019)";
+//Add in actual 2019 numbers
+//var VERSION = "(Version 0.7, 7/24/2019)";
 //Minor bug fixes for 300 FPL and age of TP
 //var VERSION = "(Version 0.6, 6/30/2019)";
 //added color coding for response - red: penalty, green: continue entering data, blue: no penalty
@@ -399,7 +401,7 @@ function PrivateOffer() {
 	PrivatePlan.disabled = false;
 
 	if(County.value != "" && TPAge.value != "" && PrivatePlan.value != "") {
-		switch (_Region[County.value]) {
+		switch (_Region[TaxYear.value+County.value]) {
 			case "1":
 				PTab = _PremiumRegion1[TaxYear.value];
 				break;

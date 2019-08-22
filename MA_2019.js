@@ -7,7 +7,7 @@ var _TY = _StopYear = "2019"; // Tax parameters
 //----------------------------------------------------------------------------------------
 
 // 2018, 2019
-// 2019 values are not correct - just created to test
+// 2019 values are based on internal memo - need to verify once formally published
 
 _FPL[_TY] = 7820;
 _FPLAddr[_TY] = 4320;
@@ -72,3 +72,18 @@ _PremiumRegion3[_TY] = [
  {age:54, individual:614, couple:1227, family:1462},
  {age:55, individual:632, couple:1263, family:1498},
 ]
+
+_Region[_TY+"Berkshire"] = "1";
+_Region[_TY+"Franklin"] = "1";
+_Region[_TY+"Hampshire"] = "1";
+_Region[_TY+"Bristol"] = "2";
+_Region[_TY+"Barnstable"] = "2";
+_Region[_TY+"Hampden"] = "1";
+_Region[_TY+"Middlesex"] = "2";
+_Region[_TY+"Norfolk"] = "2";
+_Region[_TY+"Plymouth"] = "2";
+_Region[_TY+"Suffolk"] = "2";
+_Region[_TY+"Worcester"] = "2";
+_Region[_TY+"Essex"] = "2";
+_Region[_TY+"Dukes"] = "3";
+_Region[_TY+"Nantucket"] = "3";

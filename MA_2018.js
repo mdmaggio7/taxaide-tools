@@ -73,3 +73,18 @@
          {age:54, individual:622, couple:1244, family:1482},
          {age:55, individual:641, couple:1281, family:1519},
        ]
+
+       _Region[_TY+"Berkshire"] = "1";
+       _Region[_TY+"Franklin"] = "1";
+       _Region[_TY+"Hampshire"] = "1";
+       _Region[_TY+"Bristol"] = "2";
+       _Region[_TY+"Barnstable"] = "2";
+       _Region[_TY+"Hampden"] = "2";
+       _Region[_TY+"Middlesex"] = "2";
+       _Region[_TY+"Norfolk"] = "2";
+       _Region[_TY+"Plymouth"] = "2";
+       _Region[_TY+"Suffolk"] = "2";
+       _Region[_TY+"Worcester"] = "2";
+       _Region[_TY+"Essex"] = "2";
+       _Region[_TY+"Dukes"] = "3";
+       _Region[_TY+"Nantucket"] = "3";
