@@ -11,7 +11,7 @@ var _TY = _StopYear = "2019"; // Tax parameters
 
 _FPL[_TY] = 7820;
 _FPLAddr[_TY] = 4320;
-_IndividualPercentage[_TY] = 0.0975;
+_IndividualPercentage[_TY] = 0.0986;
 
 _AffordTab1[_TY] = [
   {incomelimit:18210, percentage:0.0},
@@ -42,33 +42,33 @@ _AffordTab3Plus[_TY] = [
 ];
 _PremiumRegion1[_TY] = [
 
- {age:30, individual:240, couple:459, family:624},
- {age:34, individual:263, couple:506, family:647},
- {age:39, individual:270, couple:519, family:660},
- {age:44, individual:288, couple:555, family:696},
- {age:49, individual:327, couple:634, family:775},
- {age:54, individual:379, couple:737, family:878},
- {age:55, individual:389, couple:758, family:899},
+ {age:30, individual:231, couple:461, family:596},
+ {age:34, individual:250, couple:500, family:639},
+ {age:39, individual:257, couple:513, family:652},
+ {age:44, individual:275, couple:549, family:688},
+ {age:49, individual:314, couple:627, family:766},
+ {age:54, individual:364, couple:728, family:868},
+ {age:55, individual:375, couple:750, family:889},
 ]
 
 _PremiumRegion2[_TY] = [
 
- {age:30, individual:249, couple:598, family:697},
- {age:34, individual:282, couple:664, family:721},
- {age:39, individual:290, couple:679, family:736},
- {age:44, individual:310, couple:719, family:777},
- {age:49, individual:354, couple:807, family:865},
- {age:54, individual:411, couple:922, family:979},
- {age:55, individual:423, couple:946, family:1003},
+ {age:30, individual:257, couple:514, family:665},
+ {age:34, individual:279, couple:558, family:713},
+ {age:39, individual:286, couple:572, family:728},
+ {age:44, individual:306, couple:612, family:768},
+ {age:49, individual:350, couple:699, family:855},
+ {age:54, individual:406, couple:812, family:968},
+ {age:55, individual:418, couple:836, family:992},
 ]
 
 _PremiumRegion3[_TY] = [
 
- {age:30, individual:325, couple:650, family:1155},
- {age:34, individual:427, couple:854, family:1192},
- {age:39, individual:438, couple:876, family:1214},
- {age:44, individual:469, couple:938, family:1276},
- {age:49, individual:536, couple:1071, family:1409},
- {age:54, individual:622, couple:1244, family:1582},
- {age:55, individual:641, couple:1281, family:1619},
+ {age:30, individual:342, couple:683, family:885},
+ {age:34, individual:421, couple:842, family:1077},
+ {age:39, individual:432, couple:864, family:1099},
+ {age:44, individual:463, couple:925, family:1160},
+ {age:49, individual:528, couple:1056, family:1291},
+ {age:54, individual:614, couple:1227, family:1462},
+ {age:55, individual:632, couple:1263, family:1498},
 ]
