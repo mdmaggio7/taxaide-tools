@@ -315,13 +315,17 @@ function CheckPenalty() {
 	  else {
 			Premium = 0;
 		}
-		if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" ||
-		   (EmployerIndividualOffer.value == "Yes" && (Premium >= (TotAGI.value * _IndividualPercentage[TaxYear.value])))) {
+    if (TotAGI.value == "") {
+      FPL300Message.innerHTML = "";
+      Penalty_FPL300 = UNKNOWN;
+    }
+		else if(CitizenLegalResident.value == "No" || GovInsurance.value == "Yes" ||
+		   (EmployerIndividualOffer.value == "Yes" && EmployerIndividualPremium.value != "" && (Premium < (TotAGI.value * _IndividualPercentage[TaxYear.value])))) {
 			FPL300Message.innerHTML =  "Not eligible for MassHealth/Subsidized insurance.";
 			FPL300Message.style.color = "blue";
 		  Penalty_FPL300 = NOPENALTY;
 		}
-		else if (TotAGI.value == "" || CitizenLegalResident.value == "" ||  GovInsurance.value == "" || EmployerIndividualOffer.value == "" ||
+		else if (CitizenLegalResident.value == "" ||  GovInsurance.value == "" || EmployerIndividualOffer.value == "" ||
 			(EmployerIndividualOffer.value == "Yes" && EmployerIndividualPremium.value == "")) {
 			FPL300Message.innerHTML = "";
 			Penalty_FPL300 = UNKNOWN;
