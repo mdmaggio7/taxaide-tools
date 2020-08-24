@@ -6,8 +6,7 @@
       var _TY = _StopYear = "2018"; // Tax parameters
       //----------------------------------------------------------------------------------------
 
-// 2018, 2019
-// 2019 values are not correct - just created to test
+// 2018
 
        _FPL[_TY] = 7880;
        _FPLAddr[_TY] = 4180;
