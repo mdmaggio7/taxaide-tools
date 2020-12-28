@@ -6,7 +6,7 @@
 var _TY = _StopYear = "2020"; // Tax parameters
 //----------------------------------------------------------------------------------------
 
-// 2020 values are based on internal memo - need to verify once formally published
+// 2020 values confirmed from 2020 Schedule HC Instructions
 
 _FPL[_TY] = 8070;
 _FPLAddr[_TY] = 4420;
@@ -54,7 +54,7 @@ _PremiumRegion2[_TY] = [
 
  {age:30, individual:269, couple:538, family:696},
  {age:34, individual:288, couple:576, family:736},
- {age:39, individual:296, couple:591, family:751},
+ {age:39, individual:298, couple:591, family:751},
  {age:44, individual:316, couple:632, family:793},
  {age:49, individual:361, couple:722, family:883},
  {age:54, individual:420, couple:839, family:999},
