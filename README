@@ -11,6 +11,8 @@ To update annually:
   Update MAHC.html
     Include new MA_20xx.js file
     Update version number and date
+    Add new year to drop down
+    If necessary, remove oldest year
   Update MA_Global.js
     If necessary, update start year (4 years active)
 
