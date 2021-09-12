@@ -1,6 +1,20 @@
 These are tools for doing MA tax returns with TaxSlayer.
 MAHC.html
 
+To update annually:
+  Create new version of MA_20xx.js
+    Edit in FPL base number and per person number
+    Edit in ACA affordability percentage
+    Edit new stop Year
+    Edit premium and affordability tables
+    Confirm if any changes to regions
+  Update MAHC.html
+    Include new MA_20xx.js file
+    Update version number and date
+  Update MA_Global.js
+    If necessary, update start year (4 years active)
+
+
 ToDo List:
 Check for affordability for employer offer
 Check for affordability for private insurance
