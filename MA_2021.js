@@ -8,8 +8,8 @@ var _TY = _StopYear = "2021"; // Tax parameters
 
 // 2020 values confirmed from 2020 Schedule HC Instructions
 
-_FPL[_TY] = 8340;
-_FPLAddr[_TY] = 4540;
+_FPL[_TY] = 8280;
+_FPLAddr[_TY] = 4480;
 _IndividualPercentage[_TY] = 0.0983;
 
 _AffordTab1[_TY] = [
@@ -66,7 +66,7 @@ _PremiumRegion3[_TY] = [
  {age:30, individual:365, couple:730, family:945},
  {age:34, individual:413, couple:825, family:1055},
  {age:39, individual:424, couple:847, family:1077},
- {age:44, individual:451, couple:906, family:1136},
+ {age:44, individual:453, couple:906, family:1136},
  {age:49, individual:518, couple:1035, family:1265},
  {age:54, individual:601, couple:1202, family:1432},
  {age:55, individual:619, couple:1238, family:1468},
