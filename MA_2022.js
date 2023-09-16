@@ -37,7 +37,7 @@ _AffordTab3Plus[_TY] = [
   {incomelimit:65880, percentage:0.0585},
   {incomelimit:76860, percentage:0.0745},
   {incomelimit:87840, percentage:0.076},
-  {incomelimit:887841, percentage:0.08}
+  {incomelimit:87841, percentage:0.08}
 ];
 _PremiumRegion1[_TY] = [
 
