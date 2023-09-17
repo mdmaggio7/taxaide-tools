@@ -30,7 +30,7 @@ _AffordTab2[_TY] = [
   {incomelimit:67640, percentage:0.076},
   {incomelimit:67641, percentage:0.08}
 ];
-_AffordTab3Plus[_TY] = [
+_AffordTab3[_TY] = [
   {incomelimit:31995, percentage:0.0},
   {incomelimit:42660, percentage:0.034},
   {incomelimit:53325, percentage:0.049},

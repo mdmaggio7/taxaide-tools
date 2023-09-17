@@ -259,7 +259,7 @@ function CheckPenalty() {
 			FPL150Message.style.color = "red";
 	}
 	else if(Penalty_Employer == NOPENALTY && Penalty_FPL300 == NOPENALTY && Penalty_Private == NOPENALTY){
-		FPL150Message.innerHTML =  "Insurance not affordable - No penalty. Enter NO to Affordability Questions.";
+		FPL150Message.innerHTML =  "Insurance not affordable - No penalty. Enter NO to 3 Affordability Questions.";
 		FPL150Message.style.color = "blue";
 	}
 	else if(TotAGI.value > FPL300){
@@ -379,7 +379,7 @@ function CheckPenalty() {
 				ATab = _AffordTab2[TaxYear.value];
 				break;
 			default:
-			 ATab = _AffordTab3Plus[TaxYear.value];
+			 ATab = _AffordTab3[TaxYear.value];
 			 break;
 		}
 
@@ -466,7 +466,7 @@ function PrivateOffer() {
 				ATab = _AffordTab2[TaxYear.value];
 				break;
 			default:
-			 ATab = _AffordTab3Plus[TaxYear.value];
+			 ATab = _AffordTab3[TaxYear.value];
 			 break;
 		}
 		for(i = 0; i < ATab.length; ++i) {
