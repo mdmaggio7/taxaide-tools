@@ -9,8 +9,8 @@ var _TY = _StopYear = "2023"; // Tax parameters
 // Preliminary 2023 values
 
 // These are Federal Poverty Level - Single is FLP + FPLAddr
-_FPL[_TY] = 9440;
-_FPLAddr[_TY] = 5140;
+_FPL[_TY] = 8870;
+_FPLAddr[_TY] = 4720;
 _IndividualPercentage[_TY] = 0.0912;
 
 _AffordTab1[_TY] = [
