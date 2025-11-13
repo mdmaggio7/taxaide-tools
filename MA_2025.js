@@ -12,7 +12,6 @@ var _TY = _StopYear = "2025"; // Tax parameters
 _FPL[_TY] = 9680;
 _FPLAddr[_TY] = 5380;
 _IndividualPercentage[_TY] = 0.0902;
-_FPL_MULT = 5;
 
 _AffordTab1[_TY] = [
    {incomelimit:22590, percentage:0},

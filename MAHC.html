@@ -112,8 +112,8 @@
 
 // --------------------------------------------------------------------------------
 // CHANGE HISTORY:
-//Initial vesion based on preliminary 2024
-var VERSION = "(Version 1.10, 10/28/2025)";
+//Initial vesion based on preliminary 2025
+var VERSION = "(Version 1.10, 1/12/2025)";
 //Initial vesion based on preliminary 2024
 //var VERSION = "(Version 1.09, 10/25/2024)";
 //Final vesion based on 2023 Schedule HC instructions
@@ -312,6 +312,12 @@ function CheckPenalty() {
 		}
 		else {
 			TotAGI.value = "";
+		}
+		if(TaxYear.value < 2024) {
+			_FPL_MULT = 3;
+		}
+		else {
+			_FPL_MULT = 5;
 		}
 		FPL300 = (FPL + (FamilySize.value * FPLAddr)) * _FPL_MULT;
 		if (TotAGI.value > FPL300) {
