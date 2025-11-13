@@ -26,6 +26,7 @@ var _AMT = [];
 var _SALT = [];
 var FPL150 = 0;
 var FPL300 = 0;
+var _FPL_MULT = 3;
 var FPL;
 var FPLAddr;
 

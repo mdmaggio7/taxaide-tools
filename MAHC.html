@@ -271,7 +271,7 @@ function CheckPenalty() {
 		FPL150Message.style.color = "blue";
 	}
 	else if(TotAGI.value > FPL300){
-		FPL150Message.innerHTML =  "AGI greater than 300% of FPL - Continue to affordability tests.";
+		FPL150Message.innerHTML =  "AGI greater than 150% of FPL - Continue to affordability tests.";
 			FPL150Message.style.color = "green";
 	}
 	else {
@@ -304,7 +304,7 @@ function CheckPenalty() {
 	}
 
 	//----------------------------------------------
-	// This function tests for 300% of FedPovLine and not eligible for subsized/MassHealth
+	// This function tests for 300% of FedPovLine or 500% starting in 2024 and not eligible for subsized/MassHealth
 	// need to add in check for 9.56% for individual insurance
 	function CheckFPL300() {
 		if(TPAGI.value != "") {
@@ -313,7 +313,7 @@ function CheckPenalty() {
 		else {
 			TotAGI.value = "";
 		}
-		FPL300 = (FPL + (FamilySize.value * FPLAddr)) * 3;
+		FPL300 = (FPL + (FamilySize.value * FPLAddr)) * _FPL_MULT;
 		if (TotAGI.value > FPL300) {
       CitizenLegalResident.disabled = true;
 			GovInsurance.disabled = true;
@@ -628,7 +628,7 @@ unless either
 3. Previously had been denied MassHealth or subsized coverage from Mass Health Connector -->
 
 <div id="FPL300Info">
-	<h1>Eligibility for Government-Subsidized Health Insurance: AGI 300% FPL</h1>
+	<h1>Eligibility for Government-Subsidized Health Insurance</h1>
 	<table id="FPL300Tbl">
 		<tbody><tr>
 			<td>Citizen or Legal Resident?</td>
